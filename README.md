@@ -1,6 +1,6 @@
 # guitar_tuner
 
-A new Flutter project.
+A Flutter app for tune guitar.
 
 ## Getting Started
 
