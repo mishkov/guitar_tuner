@@ -1,9 +1,12 @@
-class ScaleBackgroundPainter extends CustomPainter {
-  Canvas _canvas;
-  Size _size;
+import 'package:flutter/material.dart';
 
+import 'neumorphism_figure.dart';
+
+class ScaleBackgroundPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
+    var scaleBackground = _ScaleBackground(canvas, size);
+    scaleBackground.draw():
     _canvas = canvas;
     _size = size;
     _drawWhiteShadow();
@@ -144,3 +147,46 @@ class ScaleBackgroundPainter extends CustomPainter {
   @override
   bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }
+
+class _ScaleBackground {
+  final _canvas;
+  final _size;
+
+  _ScaleBackground(this._canvas, this._size);
+
+  void draw() {
+    _arc.drawWhiteShaadow();
+    _leftCap.drawWhiteShadow();
+    _rightCap.drawWhiteShadow();
+
+    _arc.drawBlackShadow();
+    _leftCap.drawBlackShadow();
+    _rightCap.drawBlackShadow();
+
+    _arc.draw();
+    _leftCap.draw();
+    _rightCap.draw();
+  }
+}
+
+class _Arc extends NeumorphismFigure {
+  var _canvas;
+  var _size;
+
+  _Arc(Canvas this._canvas, Size this._size);
+
+  @override
+  void draw() {
+    _canvas.drawPath(scaleBackgroundArc, scaleBackgroundArcPaint);
+  }
+
+  @override
+  void drawBlackShadow() {
+    // TODO: implement drawBlackShadow
+  }
+
+  @override
+  void drawWhiteShadow() {
+    // TODO: implement drawWhiteShadow
+  }}
+
