@@ -4,7 +4,6 @@ import 'dart:ui' as ui;
 
 import 'package:flutter/material.dart';
 import 'package:flutter_fft/flutter_fft.dart';
-import 'package:flutter_svg/avd.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/services.dart' show rootBundle;
 
@@ -145,34 +144,34 @@ class ScalePainter extends CustomPainter {
     drawsScaleBackground(canvas, size);
 
     // Draw progress line
-    // final progressScaleWidth = scaleBackgroundWidth * 0.4;
-    // var progressScaleRadius = scaleBackgroundRadius;
+    final progressScaleWidth = scaleBackgroundWidth * 0.4;
+    var progressScaleRadius = scaleBackgroundRadius;
 
-    // const startValueAngle = math.pi;
-    // const maxValueAngle = math.pi;
-    // const startGradientColor = Color(0xFFFD0054);
-    // const endGradientColor = Color(0xFFA80038);
-    // final gradient = new SweepGradient(
-    //   startAngle: startValueAngle,
-    //   endAngle: startValueAngle + maxValueAngle * _progress,
-    //   tileMode: TileMode.repeated,
-    //   colors: [
-    //     startGradientColor,
-    //     endGradientColor,
-    //   ],
-    // );
-    // var processScaleBouns = Rect.fromCircle(
-    //   center: scaleCenter,
-    //   radius: progressScaleRadius,
-    // );
-    // final progressScalePaint = new Paint()
-    //   ..shader = gradient.createShader(processScaleBouns)
-    //   ..strokeCap = StrokeCap.butt // StrokeCap.round is not recommended.
-    //   ..style = PaintingStyle.stroke
-    //   ..strokeWidth = progressScaleWidth;
+    const startValueAngle = math.pi;
+    const maxValueAngle = math.pi;
+    const startGradientColor = Color(0xFFFD0054);
+    const endGradientColor = Color(0xFFA80038);
+    final gradient = new SweepGradient(
+      startAngle: startValueAngle,
+      endAngle: startValueAngle + maxValueAngle * _progress,
+      tileMode: TileMode.repeated,
+      colors: [
+        startGradientColor,
+        endGradientColor,
+      ],
+    );
+    var processScaleBouns = Rect.fromCircle(
+      center: scaleCenter,
+      radius: progressScaleRadius,
+    );
+    final progressScalePaint = new Paint()
+      ..shader = gradient.createShader(processScaleBouns)
+      ..strokeCap = StrokeCap.butt // StrokeCap.round is not recommended.
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = progressScaleWidth;
 
-    // canvas.drawArc(processScaleBouns, startValueAngle,
-    //     maxValueAngle * _progress, false, progressScalePaint);
+    canvas.drawArc(processScaleBouns, startValueAngle,
+        maxValueAngle * _progress, false, progressScalePaint);
   }
 
   void drawsScaleBackground(Canvas canvas, Size size) {
@@ -188,19 +187,19 @@ class ScalePainter extends CustomPainter {
     const scaleBackgroundCapRadius = 8.0;
     const scaleBackgroundColor = Color(0xFFDDDDDD);
 
-    var leftTopCornerOfLeftScaleCup = Offset(
+    var leftTopCornerOfLeftScaleCap = Offset(
       0,
       scaleBackgroundHeight,
     );
-    var rightBottomCornerOfLeftScaleCup = leftTopCornerOfLeftScaleCup.translate(
+    var rightBottomCornerOfLeftScaleCap = leftTopCornerOfLeftScaleCap.translate(
       scaleBackgroundWidth,
       scaleBackgroundCapRadius,
     );
 
     var leftCapOfScaleBackground = RRect.fromRectAndCorners(
       Rect.fromPoints(
-        leftTopCornerOfLeftScaleCup,
-        rightBottomCornerOfLeftScaleCup,
+        leftTopCornerOfLeftScaleCap,
+        rightBottomCornerOfLeftScaleCap,
       ),
       bottomLeft: Radius.circular(scaleBackgroundCapRadius),
       bottomRight: Radius.circular(scaleBackgroundCapRadius),
