@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:flutter/material.dart';
 
 import 'neumorphism_figure.dart';
@@ -172,17 +174,73 @@ class _ScaleBackground {
 class _Arc extends NeumorphismFigure {
   var _canvas;
   var _size;
+  var _path;
+  var _paint;
+  var _blackShadowPaint;
+  var _whiteShadowPaint;
 
-  _Arc(Canvas this._canvas, Size this._size);
+  _Arc(Canvas this._canvas, Size this._size) : super(_canvas, _size) {
+      _initPath();
+      _initPaint();
+      _initBlackShadowPaint();
+      _initWhiteShadowPaint();
+  }
+
+  void _initPath() {
+    final startAngle = math.pi;
+    final sweepAngle = math.pi;
+    _path = Path()..addArc(_bounds, startAngle, sweepAngle);
+  }
+
+  void _initPaint() => _paint = Paint()
+      ..color = _color
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = _arcWidth;
+
+  void _initBlackShadowPaint() => _blackShadowPaint = Paint()
+      ..color = _blackShadowColor
+      ..style = PaintingStyle.stroke
+      ..strokeWidth = _arcWidth
+      ..maskFilter = MaskFilter.blur(BlurStyle.normal, _shadowBlurSigma);
+
+  void _initWhiteShadowPaint() => _whiteShadowPaint = Paint()
+    ..color = _whiteShadowColor
+    ..style = PaintingStyle.stroke
+      ..strokeWidth = _arcWidth
+      ..maskFilter = MaskFilter.blur(BlurStyle.normal, _shadowBlurSigma);
+
+  Color get _color => Color(0xFFDDDDDD);
+
+  Color get _blackShadowColor => Color(0x26000000);
+
+  Color get _whiteShadowColor => Color(0x66FFFFFF);
+
+  double get _shadowBlurSigma => 8.0;
+
+  Rect get _bounds => Rect.fromCircle(center: _center, radius: _radius);
+
+  Offset get _center => Offset(
+      _size.width / 2,
+      _size.width / 2,
+    );
+
+  double get _radius => _height - (_arcWidth / 2);
+
+  double get _height => _size.width / 2;
+
+  double get _arcWidth {
+    const ratio = 0.1769;
+    return _height * ratio;
+  }
 
   @override
   void draw() {
-    _canvas.drawPath(scaleBackgroundArc, scaleBackgroundArcPaint);
+    _canvas.drawPath(_path, _paint);
   }
 
   @override
   void drawBlackShadow() {
-    // TODO: implement drawBlackShadow
+    _canvas.drawPath(_path, _blackShadowPaint);
   }
 
   @override
