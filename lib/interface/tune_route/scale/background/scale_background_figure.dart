@@ -48,11 +48,13 @@ abstract class ScaleBackgroundFigure implements NeumorphismFigure {
 
   @override
   void drawBlackShadow() {
-    canvas.drawPath(path, blackShadowPaint);
+    var shadowOffset = Offset(4, 4);
+    canvas.drawPath(path.shift(shadowOffset), blackShadowPaint);
   }
 
   @override
   void drawWhiteShadow() {
-    canvas.drawPath(path, whiteShadowPaint);
+    var shadowOffset = Offset(-4, -4);
+    canvas.drawPath(path.shift(shadowOffset), whiteShadowPaint);
   }
 }
