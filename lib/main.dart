@@ -1,11 +1,8 @@
-import 'dart:math' as math;
-import 'dart:io';
-import 'dart:ui' as ui;
-
 import 'package:flutter/material.dart';
 import 'package:flutter_fft/flutter_fft.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import 'package:guitar_tuner/interface/tune_route/scale/background/scale_backgroud_painter.dart';
 
 void main() => runApp(Application());
 
@@ -74,7 +71,7 @@ class TuneRouteState extends State<TuneRoute> {
             children: <Widget>[
               CustomPaint(
                 size: Size(scaleWidth, scaleHeight),
-                painter: ScalePainter(1),
+                painter: ScaleBackgroundPainter(),
               ),
               isRecording
                   ? Text(
@@ -128,122 +125,122 @@ class TuneRouteState extends State<TuneRoute> {
   }
 }
 
-class ScalePainter extends CustomPainter {
-  double _progress;
+// class ScalePainter extends CustomPainter {
+//   double _progress;
 
-  ScalePainter(double progress) {
-    if (progress < 0 || 1 < progress) {
-      throw Exception('Progress should be in range 0..1!');
-    } else {
-      _progress = progress;
-    }
-  }
+//   ScalePainter(double progress) {
+//     if (progress < 0 || 1 < progress) {
+//       throw Exception('Progress should be in range 0..1!');
+//     } else {
+//       _progress = progress;
+//     }
+//   }
 
-  @override
-  void paint(Canvas canvas, Size size) {
-    drawsScaleBackground(canvas, size);
+//   @override
+//   void paint(Canvas canvas, Size size) {
+//     drawsScaleBackground(canvas, size);
 
-    // Draw progress line
-    final progressScaleWidth = scaleBackgroundWidth * 0.4;
-    var progressScaleRadius = scaleBackgroundRadius;
+//     // Draw progress line
+//     final progressScaleWidth = scaleBackgroundWidth * 0.4;
+//     var progressScaleRadius = scaleBackgroundRadius;
 
-    const startValueAngle = math.pi;
-    const maxValueAngle = math.pi;
-    const startGradientColor = Color(0xFFFD0054);
-    const endGradientColor = Color(0xFFA80038);
-    final gradient = new SweepGradient(
-      startAngle: startValueAngle,
-      endAngle: startValueAngle + maxValueAngle * _progress,
-      tileMode: TileMode.repeated,
-      colors: [
-        startGradientColor,
-        endGradientColor,
-      ],
-    );
-    var processScaleBouns = Rect.fromCircle(
-      center: scaleCenter,
-      radius: progressScaleRadius,
-    );
-    final progressScalePaint = new Paint()
-      ..shader = gradient.createShader(processScaleBouns)
-      ..strokeCap = StrokeCap.butt // StrokeCap.round is not recommended.
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = progressScaleWidth;
+//     const startValueAngle = math.pi;
+//     const maxValueAngle = math.pi;
+//     const startGradientColor = Color(0xFFFD0054);
+//     const endGradientColor = Color(0xFFA80038);
+//     final gradient = new SweepGradient(
+//       startAngle: startValueAngle,
+//       endAngle: startValueAngle + maxValueAngle * _progress,
+//       tileMode: TileMode.repeated,
+//       colors: [
+//         startGradientColor,
+//         endGradientColor,
+//       ],
+//     );
+//     var processScaleBouns = Rect.fromCircle(
+//       center: scaleCenter,
+//       radius: progressScaleRadius,
+//     );
+//     final progressScalePaint = new Paint()
+//       ..shader = gradient.createShader(processScaleBouns)
+//       ..strokeCap = StrokeCap.butt // StrokeCap.round is not recommended.
+//       ..style = PaintingStyle.stroke
+//       ..strokeWidth = progressScaleWidth;
 
-    canvas.drawArc(processScaleBouns, startValueAngle,
-        maxValueAngle * _progress, false, progressScalePaint);
-  }
+//     canvas.drawArc(processScaleBouns, startValueAngle,
+//         maxValueAngle * _progress, false, progressScalePaint);
+//   }
 
-  void drawsScaleBackground(Canvas canvas, Size size) {
-    var scaleCenter = Offset(
-      size.width / 2,
-      size.width / 2,
-    );
+//   void drawsScaleBackground(Canvas canvas, Size size) {
+//     var scaleCenter = Offset(
+//       size.width / 2,
+//       size.width / 2,
+//     );
 
-    final scaleBackgroundHeight = size.width / 2;
-    final scaleBackgroundWidth = scaleBackgroundHeight * 0.1769;
-    final scaleBackgroundRadius =
-        scaleBackgroundHeight - (scaleBackgroundWidth / 2);
-    const scaleBackgroundCapRadius = 8.0;
-    const scaleBackgroundColor = Color(0xFFDDDDDD);
+//     final scaleBackgroundHeight = size.width / 2;
+//     final scaleBackgroundWidth = scaleBackgroundHeight * 0.1769;
+//     final scaleBackgroundRadius =
+//         scaleBackgroundHeight - (scaleBackgroundWidth / 2);
+//     const scaleBackgroundCapRadius = 8.0;
+//     const scaleBackgroundColor = Color(0xFFDDDDDD);
 
-    var leftTopCornerOfLeftScaleCap = Offset(
-      0,
-      scaleBackgroundHeight,
-    );
-    var rightBottomCornerOfLeftScaleCap = leftTopCornerOfLeftScaleCap.translate(
-      scaleBackgroundWidth,
-      scaleBackgroundCapRadius,
-    );
+//     var leftTopCornerOfLeftScaleCap = Offset(
+//       0,
+//       scaleBackgroundHeight,
+//     );
+//     var rightBottomCornerOfLeftScaleCap = leftTopCornerOfLeftScaleCap.translate(
+//       scaleBackgroundWidth,
+//       scaleBackgroundCapRadius,
+//     );
 
-    var leftCapOfScaleBackground = RRect.fromRectAndCorners(
-      Rect.fromPoints(
-        leftTopCornerOfLeftScaleCap,
-        rightBottomCornerOfLeftScaleCap,
-      ),
-      bottomLeft: Radius.circular(scaleBackgroundCapRadius),
-      bottomRight: Radius.circular(scaleBackgroundCapRadius),
-    );
-    var rightBackgoundScaleCap = leftCapOfScaleBackground.shift(Offset(
-      2 * scaleBackgroundRadius,
-      0,
-    ));
+//     var leftCapOfScaleBackground = RRect.fromRectAndCorners(
+//       Rect.fromPoints(
+//         leftTopCornerOfLeftScaleCap,
+//         rightBottomCornerOfLeftScaleCap,
+//       ),
+//       bottomLeft: Radius.circular(scaleBackgroundCapRadius),
+//       bottomRight: Radius.circular(scaleBackgroundCapRadius),
+//     );
+//     var rightBackgoundScaleCap = leftCapOfScaleBackground.shift(Offset(
+//       2 * scaleBackgroundRadius,
+//       0,
+//     ));
 
-    var scaleBackgroundCapsPaint = Paint()
-      ..color = scaleBackgroundColor
-      ..style = PaintingStyle.fill;
-    var scaleBackgroundArcPaint = Paint()
-      ..color = scaleBackgroundColor
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = scaleBackgroundWidth;
-    var blackShadowPaint = Paint()
-      ..color = Color(0x26000000)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = scaleBackgroundWidth
-      ..maskFilter = MaskFilter.blur(BlurStyle.normal, 10);
-    var whiteShadowPaint = Paint()
-      ..color = Color(0x66FFFFFF)
-      ..style = PaintingStyle.stroke
-      ..strokeWidth = scaleBackgroundWidth
-      ..maskFilter = MaskFilter.blur(BlurStyle.normal, 10);
+//     var scaleBackgroundCapsPaint = Paint()
+//       ..color = scaleBackgroundColor
+//       ..style = PaintingStyle.fill;
+//     var scaleBackgroundArcPaint = Paint()
+//       ..color = scaleBackgroundColor
+//       ..style = PaintingStyle.stroke
+//       ..strokeWidth = scaleBackgroundWidth;
+//     var blackShadowPaint = Paint()
+//       ..color = Color(0x26000000)
+//       ..style = PaintingStyle.stroke
+//       ..strokeWidth = scaleBackgroundWidth
+//       ..maskFilter = MaskFilter.blur(BlurStyle.normal, 10);
+//     var whiteShadowPaint = Paint()
+//       ..color = Color(0x66FFFFFF)
+//       ..style = PaintingStyle.stroke
+//       ..strokeWidth = scaleBackgroundWidth
+//       ..maskFilter = MaskFilter.blur(BlurStyle.normal, 10);
 
-    var scaleBackgroundArcBounds =
-        Rect.fromCircle(center: scaleCenter, radius: scaleBackgroundRadius);
-    var scaleBackgroundArc = Path()
-      ..addArc(scaleBackgroundArcBounds, math.pi, math.pi);
-    var scaleBackgroundCaps = Path()
-      ..addRRect(leftCapOfScaleBackground)
-      ..addRRect(rightBackgoundScaleCap);
+//     var scaleBackgroundArcBounds =
+//         Rect.fromCircle(center: scaleCenter, radius: scaleBackgroundRadius);
+//     var scaleBackgroundArc = Path()
+//       ..addArc(scaleBackgroundArcBounds, math.pi, math.pi);
+//     var scaleBackgroundCaps = Path()
+//       ..addRRect(leftCapOfScaleBackground)
+//       ..addRRect(rightBackgoundScaleCap);
 
-    canvas.drawPath(scaleBackgroundArc.shift(Offset(4, 4)), blackShadowPaint);
-    canvas.drawPath(scaleBackgroundCaps.shift(Offset(4, 4)), blackShadowPaint);
-    canvas.drawPath(scaleBackgroundArc.shift(Offset(-4, -4)), whiteShadowPaint);
-    canvas.drawPath(
-        scaleBackgroundCaps.shift(Offset(-4, -4)), whiteShadowPaint);
-    canvas.drawPath(scaleBackgroundArc, scaleBackgroundArcPaint);
-    canvas.drawPath(scaleBackgroundCaps, scaleBackgroundCapsPaint);
-  }
+//     canvas.drawPath(scaleBackgroundArc.shift(Offset(4, 4)), blackShadowPaint);
+//     canvas.drawPath(scaleBackgroundCaps.shift(Offset(4, 4)), blackShadowPaint);
+//     canvas.drawPath(scaleBackgroundArc.shift(Offset(-4, -4)), whiteShadowPaint);
+//     canvas.drawPath(
+//         scaleBackgroundCaps.shift(Offset(-4, -4)), whiteShadowPaint);
+//     canvas.drawPath(scaleBackgroundArc, scaleBackgroundArcPaint);
+//     canvas.drawPath(scaleBackgroundCaps, scaleBackgroundCapsPaint);
+//   }
 
-  @override
-  bool shouldRepaint(ScalePainter oldDelegate) => true;
-}
+//   @override
+//   bool shouldRepaint(ScalePainter oldDelegate) => true;
+// }
