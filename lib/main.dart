@@ -2,7 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_fft/flutter_fft.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import 'package:guitar_tuner/interface/tune_route/scale/background/scale_backgroud_painter.dart';
+import 'package:guitar_tuner/interface/tune_route/scale_background/scale_backgound_painter.dart';
+import 'package:guitar_tuner/interface/tune_route/scale_value/scale_value.dart';
+
+import 'interface/tune_route/scale_value/scale_value_painter.dart';
 
 void main() => runApp(Application());
 
@@ -71,6 +74,8 @@ class TuneRouteState extends State<TuneRoute> {
             children: <Widget>[
               CustomPaint(
                 size: Size(scaleWidth, scaleHeight),
+                foregroundPainter: ScaleValuePainter(
+                    Note.e1, frequency), // stringNumber, frequency
                 painter: ScaleBackgroundPainter(),
               ),
               isRecording

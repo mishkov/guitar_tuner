@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:guitar_tuner/interface/tune_route/scale/background/scale_background_figure.dart';
+import 'scale_background_figure.dart';
 
 abstract class Cap extends ScaleBackgroundFigure {
   Cap(Canvas canvas, Size size) : super(canvas, size);

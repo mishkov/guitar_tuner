@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:guitar_tuner/interface/neumorphism_figure.dart';
+import 'package:guitar_tuner/interface/tune_route/scale_background/neumorphism_figure.dart';
 
 abstract class ScaleBackgroundFigure implements NeumorphismFigure {
   var canvas;

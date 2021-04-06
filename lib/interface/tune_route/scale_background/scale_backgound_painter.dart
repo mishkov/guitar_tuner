@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:guitar_tuner/interface/tune_route/scale/background/scale_background.dart';
+import 'scale_background.dart';
 
 class ScaleBackgroundPainter extends CustomPainter {
   @override
@@ -10,5 +10,5 @@ class ScaleBackgroundPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => true;
+  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
 }

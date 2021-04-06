@@ -1,7 +1,7 @@
 import 'dart:math' as math;
 
 import 'package:flutter/material.dart';
-import 'package:guitar_tuner/interface/tune_route/scale/background/scale_background_figure.dart';
+import 'scale_background_figure.dart';
 
 class Arc extends ScaleBackgroundFigure {
   Arc(Canvas canvas, size) : super(canvas, size);

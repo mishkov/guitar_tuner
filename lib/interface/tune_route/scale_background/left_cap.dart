@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:guitar_tuner/interface/tune_route/scale/background/cap.dart';
+import 'cap.dart';
 
 class LeftCap extends Cap {
   LeftCap(Canvas canvas, Size size) : super(canvas, size);

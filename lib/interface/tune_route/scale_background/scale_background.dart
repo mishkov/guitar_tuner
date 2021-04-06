@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:guitar_tuner/interface/tune_route/scale/background/arc.dart';
-import 'package:guitar_tuner/interface/tune_route/scale/background/left_cap.dart';
-import 'package:guitar_tuner/interface/tune_route/scale/background/right_cap.dart';
+import 'arc.dart';
+import 'left_cap.dart';
+import 'right_cap.dart';
 
 class ScaleBackground {
   var _arc;
