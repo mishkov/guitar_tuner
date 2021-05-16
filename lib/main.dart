@@ -74,11 +74,10 @@ class TuneRouteState extends State<TuneRoute> with TickerProviderStateMixin {
             left: scaleMargin,
             top: scaleMargin + statusBarHeight,
             right: scaleMargin,
-            bottom: scaleMargin,
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: <Widget>[
               FrequencyDeviationScale(
                 _deviationInHz,
