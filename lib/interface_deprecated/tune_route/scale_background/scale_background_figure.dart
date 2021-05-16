@@ -19,7 +19,6 @@ abstract class ScaleBackgroundFigure implements NeumorphismFigure {
   void initPath();
 
   void initPaint();
-
   void initBlackShadowPaint();
 
   void initWhiteShadowPaint();

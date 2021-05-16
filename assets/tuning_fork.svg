@@ -1,21 +1,3 @@
-<svg width="368" height="198" viewBox="0 0 368 198" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g filter="url(#filter0_dd)">
-<path d="M346 184C350.418 184 354.02 180.416 353.812 176.002C351.827 133.826 334.199 93.7829 304.208 63.7919C272.327 31.9107 229.087 14 184 14C138.913 14 95.673 31.9107 63.7919 63.7918C33.8008 93.7829 16.1728 133.826 14.188 176.002C13.9804 180.416 17.5817 184 22 184L36.0703 184C40.4885 184 44.0464 180.414 44.2987 176.003C46.2548 141.807 60.7039 109.406 85.0547 85.0547C111.297 58.8128 146.888 44.0702 184 44.0703C221.112 44.0703 256.703 58.8128 282.945 85.0547C307.296 109.406 321.745 141.807 323.701 176.003C323.954 180.414 327.511 184 331.93 184H346Z" fill="#FFFFFF"/>
-</g>
-<defs>
-<filter id="filter0_dd" x="0.179489" y="0" width="367.641" height="198" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
-<feFlood flood-opacity="0" result="BackgroundImageFix"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/>
-<feOffset dx="4" dy="4"/>
-<feGaussianBlur stdDeviation="5"/>
-<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.15 0"/>
-<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow"/>
-<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"/>
-<feOffset dx="-4" dy="-4"/>
-<feGaussianBlur stdDeviation="5"/>
-<feColorMatrix type="matrix" values="0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 0.4 0"/>
-<feBlend mode="normal" in2="effect1_dropShadow" result="effect2_dropShadow"/>
-<feBlend mode="normal" in="SourceGraphic" in2="effect2_dropShadow" result="shape"/>
-</filter>
-</defs>
+<svg width="340" height="170" viewBox="0 0 340 170" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M332 170C336.418 170 340.02 166.416 339.812 162.002C337.827 119.826 320.199 79.7829 290.208 49.7919C258.327 17.9107 215.087 3.40396e-06 170 0C124.913 -3.40396e-06 81.673 17.9107 49.7919 49.7918C19.8008 79.7829 2.17284 119.826 0.188044 162.002C-0.0196486 166.416 3.58172 170 8 170L22.0703 170C26.4885 170 30.0464 166.414 30.2987 162.003C32.2548 127.807 46.7039 95.4055 71.0547 71.0547C97.2967 44.8128 132.888 30.0702 170 30.0703C207.112 30.0703 242.703 44.8128 268.945 71.0547C293.296 95.4056 307.745 127.807 309.701 162.003C309.954 166.414 313.511 170 317.93 170H332Z" fill="#DDDDDD"/>
 </svg>

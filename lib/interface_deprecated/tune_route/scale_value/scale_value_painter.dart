@@ -3,13 +3,15 @@ import 'package:guitar_tuner/interface/tune_route/scale_value/scale_value.dart';
 
 class ScaleValuePainter extends CustomPainter {
   final note;
-  final frequency;
+  final frequencyTween;
+  final tickerProvider;
 
-  ScaleValuePainter(this.note, this.frequency);
+  ScaleValuePainter(this.note, this.frequencyTween, this.tickerProvider);
 
   @override
   void paint(Canvas canvas, Size size) {
-    var scaleValue = ScaleValue(canvas, size, note, frequency);
+    var scaleValue =
+        ScaleValue(canvas, size, note, frequencyTween, tickerProvider);
 
     scaleValue.draw();
   }
