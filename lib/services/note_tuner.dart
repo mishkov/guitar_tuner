@@ -1,10 +1,10 @@
 enum Note { e1, b, g, d, A, E }
 
 class NoteTuner {
-  Note _note;
-  double _frequency;
+  Note _note = Note.e1;
+  double _frequency = 0.0;
 
-  static const _classicTunedStrings = {
+  Map<Note, num> _classicTunedStrings = {
     Note.e1: 329.63,
     Note.b: 246.94,
     Note.g: 196.00,

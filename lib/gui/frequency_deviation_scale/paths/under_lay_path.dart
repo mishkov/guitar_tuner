@@ -1,7 +1,7 @@
-import 'dart:ui';
+import 'package:flutter/material.dart';
 
 class UnderLayPath extends Path {
-  UnderLayPath(Size size) {
+  UnderLayPath(Size size) : super() {
     lineTo(size.width * 0.98, size.height);
     cubicTo(size.width, size.height, size.width, size.height * 0.98, size.width,
         size.height * 0.95);
@@ -33,5 +33,11 @@ class UnderLayPath extends Path {
         size.width * 0.98, size.height);
     cubicTo(size.width * 0.98, size.height, size.width * 0.98, size.height,
         size.width * 0.98, size.height);
+  }
+
+  @override
+  noSuchMethod(Invocation invocation) {
+    print('Oh! Fuckin SHIT!!!!');
+    return super.noSuchMethod(invocation);
   }
 }

@@ -1,17 +1,22 @@
 import 'package:flutter_fft/flutter_fft.dart';
 
 class FrequencyRecorder {
-  Duration _period;
-  Stopwatch _timer;
-  double _frequency;
-  Function(double frequency) _listener;
+  Duration _period = Duration();
+  Stopwatch _timer = Stopwatch();
+  double _frequency = 0.0;
+  Function(double frequency) _listener = (_) {};
   FlutterFft _flutterFft = FlutterFft();
 
   FrequencyRecorder() {
-    _frequency = _flutterFft.getFrequency;
-    _timer = Stopwatch();
-    _timer.start();
-    _asyncInit();
+    try {
+      _flutterFft = FlutterFft();
+      _frequency = _flutterFft.getFrequency;
+      _timer.start();
+      _asyncInit();
+    } catch (e) {
+      print(e);
+      _frequency = 0.0;
+    }
   }
 
   double get frequency => _frequency;
