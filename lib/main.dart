@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:guitar_tuner/services/frequency_recorder.dart';
 import 'package:guitar_tuner/services/note_tuner.dart';
-import 'package:guitar_tuner/test.dart';
 
 import 'gui/frequency_deviation_scale/freqeuncy_deviation_scale.dart';
 import 'gui/guitar/guitar.dart';
@@ -40,7 +39,7 @@ class TuneRouteState extends State<TuneRoute> with TickerProviderStateMixin {
   Note _tunningNote = Note.e1;
   NoteTuner _noteTuner = NoteTuner();
   FrequencyRecorder _frequencyRecorder = FrequencyRecorder();
-  Function(Note peg) _pegChangedListener = (_) {};
+  Function(Note peg) _noteChangedListener = (_) {};
 
   @override
   void initState() {
@@ -57,7 +56,7 @@ class TuneRouteState extends State<TuneRoute> with TickerProviderStateMixin {
       });
     };
 
-    _pegChangedListener = (note) {
+    _noteChangedListener = (note) {
       _noteTuner.note = note;
     };
     super.initState();
@@ -96,7 +95,7 @@ class TuneRouteState extends State<TuneRoute> with TickerProviderStateMixin {
               //   size: Size(218, 511),
               //   painter: MyPainter(),
               // ),
-              Guitar(_pegChangedListener),
+              Guitar(_noteChangedListener),
             ],
           ),
         ),

@@ -4,12 +4,12 @@ import 'package:guitar_tuner/services/note_tuner.dart';
 import 'guitar_painter.dart';
 
 class Guitar extends StatefulWidget {
-  final Note _selectedPeg = Note.e1;
-  final Function(Note peg) _pegChangedListener;
+  final Note _selectedNote = Note.e1;
+  final Function(Note peg) _noteChangedListener;
 
-  Guitar(this._pegChangedListener);
+  Guitar(this._noteChangedListener);
 
-  Note get selectedPeg => _selectedPeg;
+  Note get selectedPeg => _selectedNote;
 
   @override
   State<StatefulWidget> createState() => _GuitarState();
@@ -24,7 +24,7 @@ class _GuitarState extends State<Guitar> {
       onTapDown: _onTap,
       child: CustomPaint(
         size: canvasSize,
-        painter: GuitarPainter(widget._selectedPeg),
+        painter: GuitarPainter(widget._selectedNote),
       ),
     );
   }
@@ -33,6 +33,6 @@ class _GuitarState extends State<Guitar> {
     // тут мы определяем область нажатия
     // изменяем выбранный колок
 
-    widget._pegChangedListener(widget._selectedPeg);
+    widget._noteChangedListener(widget._selectedNote);
   }
 }
