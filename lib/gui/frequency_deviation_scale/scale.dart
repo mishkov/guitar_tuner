@@ -26,9 +26,15 @@ class Scale extends Figure {
         ],
       );
 
-  Color get _startGradientColor => Color(0xFFA80038);
+  Color get _startGradientColor =>
+      _sweepAngle.isNegative ? _darkerColor : _lighterColor;
 
-  Color get _endGradientColor => Color(0xFFFD0054);
+  Color get _endGradientColor =>
+      _sweepAngle.isNegative ? _lighterColor : _darkerColor;
+
+  Color get _darkerColor => Color(0xFFA80038);
+
+  Color get _lighterColor => Color(0xFFFD0054);
 
   double get _scaleWidth {
     const ratio = 0.9249;

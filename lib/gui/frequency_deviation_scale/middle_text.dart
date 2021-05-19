@@ -1,6 +1,5 @@
 import 'dart:ui';
 
-import 'package:guitar_tuner/gui/drawing_object.dart';
 import 'package:guitar_tuner/gui/drawing_text.dart';
 
 class MiddleText extends DrawingText {

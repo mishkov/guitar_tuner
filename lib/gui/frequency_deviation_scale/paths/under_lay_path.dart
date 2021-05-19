@@ -1,43 +1,25 @@
 import 'package:flutter/material.dart';
+import 'package:svg_path_parser/svg_path_parser.dart';
 
-class UnderLayPath extends Path {
-  UnderLayPath(Size size) : super() {
-    lineTo(size.width * 0.98, size.height);
-    cubicTo(size.width, size.height, size.width, size.height * 0.98, size.width,
-        size.height * 0.95);
-    cubicTo(size.width, size.height * 0.7, size.width * 0.94,
-        size.height * 0.47, size.width * 0.85, size.height * 0.29);
-    cubicTo(size.width * 0.76, size.height * 0.11, size.width * 0.63, 0,
-        size.width / 2, 0);
-    cubicTo(size.width * 0.37, 0, size.width * 0.24, size.height * 0.11,
-        size.width * 0.15, size.height * 0.29);
-    cubicTo(size.width * 0.06, size.height * 0.47, size.width * 0.01,
-        size.height * 0.7, 0, size.height * 0.95);
-    cubicTo(0, size.height * 0.98, size.width * 0.01, size.height,
-        size.width * 0.02, size.height);
-    cubicTo(size.width * 0.02, size.height, size.width * 0.06, size.height,
-        size.width * 0.06, size.height);
-    cubicTo(size.width * 0.08, size.height, size.width * 0.09,
-        size.height * 0.98, size.width * 0.09, size.height * 0.95);
-    cubicTo(size.width * 0.09, size.height * 0.75, size.width * 0.14,
-        size.height * 0.56, size.width / 5, size.height * 0.42);
-    cubicTo(size.width * 0.29, size.height * 0.26, size.width * 0.39,
-        size.height * 0.18, size.width / 2, size.height * 0.18);
-    cubicTo(size.width * 0.61, size.height * 0.18, size.width * 0.71,
-        size.height * 0.26, size.width * 0.79, size.height * 0.42);
-    cubicTo(size.width * 0.86, size.height * 0.56, size.width * 0.91,
-        size.height * 0.75, size.width * 0.91, size.height * 0.95);
-    cubicTo(size.width * 0.91, size.height * 0.98, size.width * 0.92,
-        size.height, size.width * 0.94, size.height);
-    cubicTo(size.width * 0.94, size.height, size.width * 0.98, size.height,
-        size.width * 0.98, size.height);
-    cubicTo(size.width * 0.98, size.height, size.width * 0.98, size.height,
-        size.width * 0.98, size.height);
-  }
+var path = parseSvgPath(
+    '''M332 170C336.418 170 340.02 166.416 339.812 162.002C337.827 119.826
+    320.199 79.7829 290.208 49.7919C258.327 17.9107 215.087 3.40396e-06 170
+    0C124.913 -3.40396e-06 81.673 17.9107 49.7919 49.7918C19.8008 79.7829
+    2.17284 119.826 0.188044 162.002C-0.0196486 166.416 3.58172 170 8
+    170L22.0703 170C26.4885 170 30.0464 166.414 30.2987 162.003C32.2548 127.807
+    46.7039 95.4055 71.0547 71.0547C97.2967 44.8128 132.888 30.0702 170
+    30.0703C207.112 30.0703 242.703 44.8128 268.945 71.0547C293.296 95.4056
+    307.745 127.807 309.701 162.003C309.954 166.414 313.511 170 317.93
+    170H332Z''');
 
-  @override
-  noSuchMethod(Invocation invocation) {
-    print('Oh! Fuckin SHIT!!!!');
-    return super.noSuchMethod(invocation);
-  }
+Path underLayPath(Size size) {
+  return _scalePath(path, size);
+}
+
+Path _scalePath(Path path, Size size) {
+  var pathBounds = path.getBounds();
+  var matrix4 = Matrix4.identity();
+  matrix4.scale(size.width / pathBounds.width, size.height / pathBounds.height);
+
+  return path.transform(matrix4.storage);
 }

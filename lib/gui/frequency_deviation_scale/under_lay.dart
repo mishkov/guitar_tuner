@@ -8,5 +8,5 @@ class UnderLay extends NeomorphismFigure {
   UnderLay(Canvas canvas, Size size) : super(canvas, size);
 
   @override
-  Path get path => UnderLayPath(size);
+  Path get path => underLayPath(size);
 }

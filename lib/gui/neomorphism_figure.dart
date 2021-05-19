@@ -1,5 +1,7 @@
 import 'dart:ui';
 
+import 'package:flutter/material.dart';
+
 import 'figure.dart';
 
 abstract class NeomorphismFigure extends Figure {
