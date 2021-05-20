@@ -1,11 +1,9 @@
-import 'dart:math';
 import 'dart:ui';
 
-import '../../services/note_tuner.dart';
-import '../neomorphism_figure.dart';
+import '../neumorphism_figure.dart';
 import 'paths/winder_path.dart';
 
-class Winder extends NeomorphismFigure {
+class Winder extends NeumorphismFigure {
   bool _isTunning = false;
   Offset _offset;
 

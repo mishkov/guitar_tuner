@@ -20,9 +20,7 @@ class Winders extends DrawingObject {
   }
 
   @override
-  void draw() {
-    _winders.forEach(
-      (key, value) => value.draw(),
-    );
-  }
+  void draw() => _winders.forEach(
+        (key, value) => value.draw(),
+      );
 }

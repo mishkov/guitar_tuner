@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 
 import 'figure.dart';
 
-abstract class NeomorphismFigure extends Figure {
-  NeomorphismFigure(Canvas canvas, Size size) : super(canvas, size);
+abstract class NeumorphismFigure extends Figure {
+  NeumorphismFigure(Canvas canvas, Size size) : super(canvas, size);
 
   @override
   void draw() {
