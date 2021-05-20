@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:guitar_tuner/gui/guitar/scale_path.dart';
 import 'package:svg_path_parser/svg_path_parser.dart';
 
 var path = parseSvgPath(
@@ -13,13 +14,5 @@ var path = parseSvgPath(
     170H332Z''');
 
 Path underLayPath(Size size) {
-  return _scalePath(path, size);
-}
-
-Path _scalePath(Path path, Size size) {
-  var pathBounds = path.getBounds();
-  var matrix4 = Matrix4.identity();
-  matrix4.scale(size.width / pathBounds.width, size.height / pathBounds.height);
-
-  return path.transform(matrix4.storage);
+  return scalePath(path, size, path.getBounds().size);
 }

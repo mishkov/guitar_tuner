@@ -10,9 +10,9 @@ class WindersNames extends DrawingObject {
 
   WindersNames(Canvas canvas, Size size, tunningNote) : super(canvas, size) {
     _windersNames = {
-      Note.e1: WinderName(canvas, size, 'G', Offset(size.width + 12, 75)),
+      Note.e1: WinderName(canvas, size, 'E', Offset(size.width + 12, 197)),
       Note.b: WinderName(canvas, size, 'B', Offset(size.width + 12, 136)),
-      Note.g: WinderName(canvas, size, 'E', Offset(size.width + 12, 197)),
+      Note.g: WinderName(canvas, size, 'G', Offset(size.width + 12, 75)),
       Note.d: WinderName(canvas, size, 'D', Offset(-64, 75)),
       Note.A: WinderName(canvas, size, 'A', Offset(-64, 136)),
       Note.E: WinderName(canvas, size, 'E', Offset(-64, 197)),

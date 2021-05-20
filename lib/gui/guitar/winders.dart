@@ -9,9 +9,9 @@ class Winders extends DrawingObject {
 
   Winders(Canvas canvas, Size size, Note tunningNote) : super(canvas, size) {
     _winders = {
-      Note.e1: Winder(canvas, size, Offset(130, 62)),
+      Note.e1: Winder(canvas, size, Offset(125, 182)),
       Note.b: Winder(canvas, size, Offset(124, 122)),
-      Note.g: Winder(canvas, size, Offset(125, 182)),
+      Note.g: Winder(canvas, size, Offset(130, 62)),
       Note.d: Winder(canvas, size, Offset(33, 62)),
       Note.A: Winder(canvas, size, Offset(36, 122)),
       Note.E: Winder(canvas, size, Offset(37, 182)),

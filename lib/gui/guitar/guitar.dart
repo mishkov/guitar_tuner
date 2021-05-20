@@ -4,7 +4,7 @@ import 'package:guitar_tuner/services/note_tuner.dart';
 import 'guitar_painter.dart';
 
 class Guitar extends StatefulWidget {
-  final Note _selectedNote = Note.e1;
+  final Note _selectedNote = Note.E;
   final Function(Note peg) _noteChangedListener;
 
   Guitar(this._noteChangedListener);

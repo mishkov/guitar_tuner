@@ -15,5 +15,8 @@ class HeadstockText extends DrawingText {
   Offset get offset => Offset((size.width / 2) - (painter.width / 2), 28);
 
   @override
+  Color get color => Color(0xFFBCBCBC);
+
+  @override
   String get text => 'guitar tuner';
 }
