@@ -50,16 +50,16 @@ class TuneRouteState extends State<TuneRoute> with TickerProviderStateMixin {
 
     _frequencyRecorder.recordPeriod = Duration(milliseconds: 500);
     _frequencyRecorder.frequencyChangedListener = (frequency) {
-      setState(() {
-        _noteTuner.frequency = frequency;
-        _setupDeviation();
-      });
+      print('New frequency is $frequency');
+      _noteTuner.frequency = frequency;
+      _setupDeviation();
     };
 
     _noteChangedListener = (note) {
-      print('CHANGED');
       _noteTuner.note = note;
+      _setupDeviation();
     };
+
     super.initState();
   }
 

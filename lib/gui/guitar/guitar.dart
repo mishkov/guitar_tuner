@@ -62,8 +62,6 @@ class _GuitarState extends State<Guitar> {
       return;
     }
 
-    print(_selectedNote);
-
     setState(() => widget._noteChangedListener(_selectedNote));
   }
 }

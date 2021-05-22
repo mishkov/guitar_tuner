@@ -17,12 +17,24 @@ class NoteTuner {
 
   set frequency(double frequency) => _frequency = frequency;
 
-  double get deviationInHz => _frequency - _classicTunedStrings[_note];
+  double get deviationInHz {
+    if (_frequency != 0.0) {
+      return _frequency - _classicTunedStrings[_note];
+    } else {
+      return 0.0;
+    }
+  }
 
-  double get deviationInPercent => (deviationInHz / _maxDeviationInHz).clamp(
+  double get deviationInPercent {
+    if (_frequency != 0.0) {
+      return (deviationInHz / _maxDeviationInHz).clamp(
         _lowerDeviationLimitInPercent,
         _upperDeviationLimitInPercent,
       );
+    } else {
+      return 0.0;
+    }
+  }
 
   double get _maxDeviationInHz => 30.0;
 
@@ -35,7 +47,11 @@ class NoteTuner {
       return 'Too low';
     } else if ((-0.50 < deviationInPercent) && (deviationInPercent < -0.05)) {
       return 'Low';
-    } else if ((-0.05 <= deviationInPercent) && (deviationInPercent <= 0.05)) {
+    } else if ((-0.05 <= deviationInPercent) && (deviationInPercent < 0.0)) {
+      return 'Good';
+    } else if (deviationInPercent == 0.0) {
+      return 'Silence';
+    } else if ((0.0 < deviationInPercent) && (deviationInPercent <= 0.05)) {
       return 'Good';
     } else if ((0.05 < deviationInPercent) && (deviationInPercent < 0.50)) {
       return 'High';

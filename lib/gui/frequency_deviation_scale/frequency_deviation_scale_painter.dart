@@ -25,7 +25,9 @@ class FrequencyDeviationScalePainter extends CustomPainter {
     ImmutableTextAtRightEndOfUnderLay(canvas, size).draw();
     MiddleText(canvas, size, _deviationInText).draw();
     MiddleFrequencyDeviation(canvas, size, _deviationInHz).draw();
-    Scale(canvas, size, _deviationInPercent).draw();
+    if (_deviationInPercent != 0.0) {
+      Scale(canvas, size, _deviationInPercent).draw();
+    }
   }
 
   @override
