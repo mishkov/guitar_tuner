@@ -4,6 +4,7 @@ import 'package:flutter_fft/flutter_fft.dart';
 
 class FrequencyRecorder {
   Timer _timer;
+  double _lastFrequency = 0.0;
   Function(double frequency) _listener = (_) {};
   FlutterFft _flutterFft = FlutterFft();
 
@@ -19,7 +20,16 @@ class FrequencyRecorder {
     _timer = Timer.periodic(period, _periodicCode);
   }
 
-  double get frequency => _flutterFft.getFrequency;
+  double get frequency {
+    if (_lastFrequency != _flutterFft.getFrequency) {
+      _lastFrequency = _flutterFft.getFrequency;
+      return _flutterFft.getFrequency;
+    } else {
+      _flutterFft.setFrequency = 0.0;
+      _lastFrequency = 0.0;
+      return 0.0;
+    }
+  }
 
   set recordPeriod(Duration period) {
     _timer.cancel();
@@ -35,8 +45,7 @@ class FrequencyRecorder {
   }
 
   void _periodicCode(Timer timer) {
-    var newFrequency = _flutterFft.getFrequency;
-    _listener(newFrequency);
+    _listener(frequency);
   }
 
   get _onRecorderStateChangedListener => (data) {

@@ -49,16 +49,16 @@ class TuneRouteState extends State<TuneRoute> with TickerProviderStateMixin {
     _setupDeviation();
 
     _frequencyRecorder.recordPeriod = Duration(milliseconds: 500);
-    _frequencyRecorder.frequencyChangedListener = (frequency) {
-      print('New frequency is $frequency');
-      _noteTuner.frequency = frequency;
-      _setupDeviation();
-    };
+    _frequencyRecorder.frequencyChangedListener = (frequency) => setState(() {
+          // print('New frequency is $frequency');
+          _noteTuner.frequency = frequency;
+          _setupDeviation();
+        });
 
-    _noteChangedListener = (note) {
-      _noteTuner.note = note;
-      _setupDeviation();
-    };
+    _noteChangedListener = (note) => setState(() {
+          _noteTuner.note = note;
+          _setupDeviation();
+        });
 
     super.initState();
   }
@@ -67,6 +67,7 @@ class TuneRouteState extends State<TuneRoute> with TickerProviderStateMixin {
     _deviationInHz = _noteTuner.deviationInHz;
     _deviationInPercent = _noteTuner.deviationInPercent;
     _deviationInText = _noteTuner.deviationIntext;
+    // print('$_deviationInHz $_deviationInPercent $_deviationInText');
   }
 
   @override
