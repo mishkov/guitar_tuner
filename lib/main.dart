@@ -39,7 +39,7 @@ class TuneRouteState extends State<TuneRoute> with TickerProviderStateMixin {
   Note _tunningNote = Note.e1;
   NoteTuner _noteTuner = NoteTuner();
   FrequencyRecorder _frequencyRecorder = FrequencyRecorder();
-  Function(Note peg) _noteChangedListener = (_) {};
+  Function(Note peg) _noteChangedListener;
 
   @override
   void initState() {
@@ -57,6 +57,7 @@ class TuneRouteState extends State<TuneRoute> with TickerProviderStateMixin {
     };
 
     _noteChangedListener = (note) {
+      print('CHANGED');
       _noteTuner.note = note;
     };
     super.initState();
@@ -76,28 +77,24 @@ class TuneRouteState extends State<TuneRoute> with TickerProviderStateMixin {
     return Scaffold(
       body: Container(
         color: const Color(0xFFDDDDDDD),
-        child: Container(
-          margin: EdgeInsets.only(
-            left: scaleMargin,
-            top: scaleMargin + statusBarHeight,
-            right: scaleMargin,
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
-              FrequencyDeviationScale(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Container(
+              margin: EdgeInsets.only(
+                left: scaleMargin,
+                top: scaleMargin + statusBarHeight,
+                right: scaleMargin,
+              ),
+              child: FrequencyDeviationScale(
                 _deviationInHz,
                 _deviationInPercent,
                 _deviationInText,
               ),
-              // CustomPaint(
-              //   size: Size(218, 511),
-              //   painter: MyPainter(),
-              // ),
-              Guitar(_noteChangedListener),
-            ],
-          ),
+            ),
+            Guitar(_noteChangedListener),
+          ],
         ),
       ),
     );

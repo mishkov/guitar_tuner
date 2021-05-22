@@ -1,43 +1,45 @@
+import 'dart:async';
+
 import 'package:flutter_fft/flutter_fft.dart';
 
 class FrequencyRecorder {
-  Duration _period = Duration();
-  Stopwatch _timer = Stopwatch();
-  double _frequency = 0.0;
+  Timer _timer;
   Function(double frequency) _listener = (_) {};
   FlutterFft _flutterFft = FlutterFft();
 
   FrequencyRecorder() {
     try {
       _flutterFft = FlutterFft();
-      _frequency = _flutterFft.getFrequency;
-      _timer.start();
       _asyncInit();
     } catch (e) {
       print(e);
-      _frequency = 0.0;
     }
+
+    var period = Duration();
+    _timer = Timer.periodic(period, _periodicCode);
   }
 
-  double get frequency => _frequency;
+  double get frequency => _flutterFft.getFrequency;
 
-  set recordPeriod(Duration period) => _period = period;
+  set recordPeriod(Duration period) {
+    _timer.cancel();
+    _timer = Timer.periodic(period, _periodicCode);
+  }
 
   set frequencyChangedListener(Function(double frequency) listener) =>
       _listener = listener;
 
-  _asyncInit() async {
+  void _asyncInit() async {
     await _flutterFft.startRecorder();
     _flutterFft.onRecorderStateChanged.listen(_onRecorderStateChangedListener);
   }
 
-  get _onRecorderStateChangedListener => (data) {
-        _frequency = data[1];
-        _flutterFft.setFrequency = _frequency;
+  void _periodicCode(Timer timer) {
+    var newFrequency = _flutterFft.getFrequency;
+    _listener(newFrequency);
+  }
 
-        if (_timer.elapsed > _period) {
-          _listener(_frequency);
-          _timer.reset();
-        }
+  get _onRecorderStateChangedListener => (data) {
+        _flutterFft.setFrequency = data[1];
       };
 }
