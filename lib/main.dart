@@ -32,7 +32,7 @@ class TuneRoute extends StatefulWidget {
   TuneRouteState createState() => TuneRouteState();
 }
 
-class TuneRouteState extends State<TuneRoute> with TickerProviderStateMixin {
+class TuneRouteState extends State<TuneRoute> {
   double _deviationInHz = 0.0;
   double _deviationInPercent = 0.0;
   String _deviationInText = 'Unknown';
@@ -48,9 +48,8 @@ class TuneRouteState extends State<TuneRoute> with TickerProviderStateMixin {
 
     _setupDeviation();
 
-    _frequencyRecorder.recordPeriod = Duration(milliseconds: 500);
+    _frequencyRecorder.recordPeriod = Duration(milliseconds: 300);
     _frequencyRecorder.frequencyChangedListener = (frequency) => setState(() {
-          // print('New frequency is $frequency');
           _noteTuner.frequency = frequency;
           _setupDeviation();
         });
@@ -67,7 +66,6 @@ class TuneRouteState extends State<TuneRoute> with TickerProviderStateMixin {
     _deviationInHz = _noteTuner.deviationInHz;
     _deviationInPercent = _noteTuner.deviationInPercent;
     _deviationInText = _noteTuner.deviationIntext;
-    // print('$_deviationInHz $_deviationInPercent $_deviationInText');
   }
 
   @override
