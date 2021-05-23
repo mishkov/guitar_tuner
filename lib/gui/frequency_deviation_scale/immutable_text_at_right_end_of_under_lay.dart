@@ -10,7 +10,10 @@ class ImmutableTextAtRightEndOfUnderLay extends DrawingText {
   double get fontSize => 36;
 
   @override
-  Offset get offset => Offset(size.width - painter.width - 26, 132);
+  Offset get offset => Offset(
+        size.width - painter.width - (size.width * 0.08823529),
+        size.height * 0.82941176,
+      );
 
   @override
   FontWeight get fontWeight => FontWeight.w400;

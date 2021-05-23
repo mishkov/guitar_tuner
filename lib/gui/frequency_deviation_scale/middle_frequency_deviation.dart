@@ -10,7 +10,10 @@ class MiddleFrequencyDeviation extends DrawingText {
   double get fontSize => 36;
 
   @override
-  Offset get offset => Offset((size.width / 2) - (painter.width / 2), 46);
+  Offset get offset => Offset(
+        (size.width / 2) - (painter.width / 2),
+        size.height * 0.28235294,
+      );
 
   @override
   FontWeight get fontWeight => FontWeight.w600;

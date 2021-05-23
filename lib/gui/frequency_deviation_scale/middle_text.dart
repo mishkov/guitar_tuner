@@ -11,7 +11,10 @@ class MiddleText extends DrawingText {
   double get fontSize => 18;
 
   @override
-  Offset get offset => Offset((size.width / 2) - (painter.width / 2), 86);
+  Offset get offset => Offset(
+        (size.width / 2) - (painter.width / 2),
+        size.height * 0.50588235,
+      );
 
   @override
   FontWeight get fontWeight => FontWeight.w600;

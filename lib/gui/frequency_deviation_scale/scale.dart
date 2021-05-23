@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:guitar_tuner/gui/figure.dart';
 
 class Scale extends Figure {
-  double _deviationInPercent;
+  double _deviationInPercent = 0.0;
 
   Scale(Canvas canvas, Size size, this._deviationInPercent)
       : super(canvas, size);
@@ -61,7 +61,7 @@ class Scale extends Figure {
 
   double get _startAngle => math.pi * 1.5;
 
-  double get _sweepAngle => (math.pi / 2) * _deviationInPercent;
+  double get _sweepAngle => (math.pi / 2.0) * _deviationInPercent;
 
   @override
   void draw() => canvas.drawPath(path, bodyPaint);

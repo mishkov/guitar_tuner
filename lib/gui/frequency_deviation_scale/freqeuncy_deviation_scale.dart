@@ -17,11 +17,11 @@ class FrequencyDeviationScale extends StatefulWidget {
   State<StatefulWidget> createState() => _FrequencyDeviationScaleState();
 }
 
-// TODO: Refactor this class
 class _FrequencyDeviationScaleState extends State<FrequencyDeviationScale>
     with TickerProviderStateMixin {
   Animation<double> _deviationInHzAnimation;
   AnimationController _deviationInHzController;
+  double _lastDeviationInHz = 0.0;
 
   Animation<double> _deviationInPercentAnimation;
   AnimationController _deviationInPercentController;
@@ -36,41 +36,23 @@ class _FrequencyDeviationScaleState extends State<FrequencyDeviationScale>
       vsync: this,
     );
     _initDeviationInPercentAnimation();
-    // var animationDuration = const Duration(milliseconds: 2000);
-    // _deviationInHzController = AnimationController(
-    //   duration: animationDuration,
-    //   vsync: this,
-    // );
 
-    // var _deviationInHzTween = Tween<double>(
-    //   begin: 0,
-    //   end: widget._deviationInHz,
-    // );
-    // _deviationInHzAnimation =
-    //     _deviationInHzTween.animate(_deviationInHzController)
-    //       ..addListener(() {
-    //         setState(() {
-    //           // The state that has changed here is the animation object’s value.
-    //         });
-    //       });
-    // _deviationInHzController.forward();
-    // _deviationInPercentAnimation =
-    //     _deviationInPercentTween.animate(_deviationInPercentController)
-    //       ..addStatusListener((status) {
-    //         print('this is addStatusListener');
-    //       })
-    //       ..addListener(() {
-    //         print('this is addListener');
-    //         setState(() {
-    //           // The state that has changed here is the animation object’s value.
-    //         });
-    //       });
+    _deviationInHzController = AnimationController(
+      duration: animationDuration,
+      vsync: this,
+    );
+    _deviationInHzController = AnimationController(
+      duration: animationDuration,
+      vsync: this,
+    );
+    _initDeviationInHzAnimation();
   }
 
   @override
   void didUpdateWidget(_) {
     super.didUpdateWidget(_);
     _initDeviationInPercentAnimation();
+    _initDeviationInHzAnimation();
   }
 
   void _initDeviationInPercentAnimation() {
@@ -91,6 +73,24 @@ class _FrequencyDeviationScaleState extends State<FrequencyDeviationScale>
     _deviationInPercentController.forward();
   }
 
+  void _initDeviationInHzAnimation() {
+    var deviationInHzTween = Tween<double>(
+      begin: _lastDeviationInHz,
+      end: widget._deviationInHz,
+    );
+    _lastDeviationInHz = widget._deviationInHz;
+    _deviationInHzAnimation =
+        deviationInHzTween.animate(_deviationInHzController)
+          ..addListener(() {
+            setState(() {});
+          });
+
+    if (_deviationInHzController.status == AnimationStatus.completed) {
+      _deviationInHzController.reset();
+    }
+    _deviationInHzController.forward();
+  }
+
   @override
   Widget build(BuildContext context) {
     const margin = 37.0;
@@ -100,7 +100,7 @@ class _FrequencyDeviationScaleState extends State<FrequencyDeviationScale>
     return CustomPaint(
       size: canvasSize,
       painter: FrequencyDeviationScalePainter(
-        widget._deviationInHz, //_deviationInHzAnimation.value,
+        _deviationInHzAnimation.value,
         _deviationInPercentAnimation.value,
         widget._deviationInText,
       ),
