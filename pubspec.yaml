@@ -1,5 +1,5 @@
 name: guitar_tuner
-description: A new Flutter project.
+description: Aplication for tunning guitar.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
