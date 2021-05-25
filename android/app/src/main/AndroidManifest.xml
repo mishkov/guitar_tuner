@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.guitar_tuner">
+    package="com.carpet.guitar_tuner">
    <application
-        android:label="guitar_tuner"
+        android:label="Guitar Tuner"
         android:icon="@mipmap/ic_launcher">
         <activity
             android:name=".MainActivity"
