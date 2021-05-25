@@ -9,6 +9,29 @@ import 'gui/frequency_deviation_scale/freqeuncy_deviation_scale.dart';
 import 'gui/guitar/guitar.dart';
 
 void main() {
+  // I don't know why but scale in release apk doesn't work
+  // copied from: https://stackoverflow.com/questions/64552637/how-can-i-solve-flutter-problem-in-release-mode
+  ErrorWidget.builder = (FlutterErrorDetails details) {
+    bool inDebug = false;
+    assert(() {
+      inDebug = true;
+      return true;
+    }());
+    // In debug mode, use the normal error widget which shows
+    // the error message:
+    if (inDebug) return ErrorWidget(details.exception);
+    // In release builds, show a yellow-on-blue message instead:
+    return Container(
+      alignment: Alignment.center,
+      child: Text(
+        'Error! ${details.exception}',
+        style: TextStyle(color: Colors.yellow),
+        textDirection: TextDirection.ltr,
+      ),
+    );
+  };
+  // Here we would normally runApp() the root widget, but to demonstrate
+  // the error handling we artificially fail:
   runApp(Application());
 }
 
@@ -97,5 +120,11 @@ class TuneRouteState extends State<TuneRoute> {
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _frequencyRecorder.dispose();
+    super.dispose();
   }
 }

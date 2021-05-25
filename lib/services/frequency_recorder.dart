@@ -39,6 +39,10 @@ class FrequencyRecorder {
   set frequencyChangedListener(Function(double frequency) listener) =>
       _listener = listener;
 
+  void dispose() {
+    _flutterFft.stopRecorder();
+  }
+
   void _asyncInit() async {
     await _flutterFft.startRecorder();
     _flutterFft.onRecorderStateChanged.listen(_onRecorderStateChangedListener);
