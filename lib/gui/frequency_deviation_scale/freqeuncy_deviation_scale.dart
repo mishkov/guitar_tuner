@@ -109,7 +109,7 @@ class _FrequencyDeviationScaleState extends State<FrequencyDeviationScale>
 
   @override
   void dispose() {
-    //_deviationInHzController.dispose();
+    _deviationInHzController.dispose();
     _deviationInPercentController.dispose();
     super.dispose();
   }
