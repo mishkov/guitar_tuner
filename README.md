@@ -1,3 +1,7 @@
+# About App
+
+Now you can find the app on the [Google Play](https://play.google.com/store/apps/details?id=com.carpet.guitar_tuner).
+
 # The Git Repository Naming Conventions
 
 ## Comits
