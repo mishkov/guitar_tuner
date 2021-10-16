@@ -148,7 +148,7 @@ temporaryVersion
 
 ### **2. Create a **new** branch to implement a **new** feautre**
 
-Every time when you need to implement a new feature you must create a new branch. Ensure that the new branch is based on the master branch. Keep in mind that the best practice is when one branch solves one Issue.
+Every time when you need to implement a new feature you must create a new branch. Ensure that the new branch is based on the `develop` branch. Keep in mind that the best practice is when one branch solves one Issue.
 
 ### **3. Add prefix to the name of a new branch**
 
