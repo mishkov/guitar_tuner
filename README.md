@@ -178,18 +178,3 @@ DON'T:
 ```
 feature/irlas-list
 ```
-
-## How To Support 2 Versions
-
-At this moment we need to support two versions of the app. First one is the main version. Second one is the temporary version that explains user that main version will be soon available. And we have an aglorithm: 
-
-Action | Who does
------- | ------
-Create new local branch based on master | Dev
-Make some work | Dev
-Create pull request to push changes to the master branch | Dev
-Merge pull request | Senior
-Make cherry-pick from the last master merge to the temporary-version | Senior
-Make pull request from temporary-version to the master branch | Senior
-
-This actions need to be applied when you resolve some Issue or implement any feature that need to be applied to both branches. When you need to apply some changes to specific branch you must do classic way.
