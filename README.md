@@ -150,6 +150,8 @@ temporaryVersion
 
 Every time when you need to implement a new feature you must create a new branch. Ensure that the new branch is based on the `develop` branch. Keep in mind that the best practice is when one branch solves one Issue.
 
+Also don't forget to push your changes to develop branch, not to master.
+
 ### **3. Add prefix to the name of a new branch**
 
 Prefix | Meaning
