@@ -3,7 +3,9 @@ import 'dart:async';
 import 'package:sound_frequency_meter/sound_frequency_meter.dart';
 
 class FrequencyRecorder {
-  SoundFrequencyMeter _soundFrequencyMeter = SoundFrequencyMeter();
+  SoundFrequencyMeter _soundFrequencyMeter = SoundFrequencyMeter(
+    frequenciesBufferSize: 40,
+  );
   List<StreamSubscription> _subscriptions = [];
 
   set recordPeriod(Duration period) {}
