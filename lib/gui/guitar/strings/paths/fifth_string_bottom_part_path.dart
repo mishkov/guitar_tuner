@@ -3,8 +3,8 @@ import 'package:svg_path_parser/svg_path_parser.dart';
 
 import '../../scale_path.dart';
 
-Path fifthStringBottomPartPath(Size size) {
-  var path = parseSvgPath('''M86 281.999v252''');
+final _path = parseSvgPath('''M86 281.999v252''');
 
-  return scalePath(path, size, Size(219.2, 512.0));
+Path fifthStringBottomPartPath(Size size) {
+  return scalePath(_path, size, const Size(219.2, 512.0));
 }

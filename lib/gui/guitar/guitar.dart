@@ -23,15 +23,9 @@ class _GuitarState extends State<Guitar> {
     return GestureDetector(
       onTapDown: _onTap,
       behavior: HitTestBehavior.opaque,
-      child: Container(
-        width: double.maxFinite,
-        child: Container(
-          alignment: Alignment.bottomCenter,
-          child: CustomPaint(
-            size: _canvasSize,
-            painter: GuitarPainter(_selectedNote),
-          ),
-        ),
+      child: GuitarView(
+        canvasSize: _canvasSize,
+        selectedNote: _selectedNote,
       ),
     );
   }
@@ -63,5 +57,34 @@ class _GuitarState extends State<Guitar> {
     }
 
     setState(() => widget._noteChangedListener(_selectedNote));
+  }
+}
+
+class GuitarView extends StatelessWidget {
+  const GuitarView({
+    Key key,
+    @required Size canvasSize,
+    @required Note selectedNote,
+  })  : _canvasSize = canvasSize,
+        _selectedNote = selectedNote,
+        super(key: key);
+
+  final Size _canvasSize;
+  final Note _selectedNote;
+
+  @override
+  Widget build(BuildContext context) {
+    return RepaintBoundary(
+      child: Container(
+        width: double.maxFinite,
+        child: Container(
+          alignment: Alignment.bottomCenter,
+          child: CustomPaint(
+            size: _canvasSize,
+            painter: GuitarPainter(_selectedNote),
+          ),
+        ),
+      ),
+    );
   }
 }
