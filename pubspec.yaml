@@ -23,7 +23,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_fft: ^1.0.1
   flutter_svg: ^0.22.0
   svg_path_parser: ^1.0.0
 
