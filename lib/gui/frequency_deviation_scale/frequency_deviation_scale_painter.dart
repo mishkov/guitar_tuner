@@ -31,5 +31,9 @@ class FrequencyDeviationScalePainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) => false;
+  bool shouldRepaint(covariant FrequencyDeviationScalePainter oldDelegate) {
+    return _deviationInHz != oldDelegate._deviationInHz ||
+        _deviationInPercent != oldDelegate._deviationInPercent ||
+        _deviationInText != oldDelegate._deviationInText;
+  }
 }
