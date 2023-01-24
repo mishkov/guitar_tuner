@@ -1,58 +1,25 @@
 import 'dart:async';
 
-import 'package:flutter_fft/flutter_fft.dart';
+import 'package:sound_frequency_meter/sound_frequency_meter.dart';
 
 class FrequencyRecorder {
-  Timer _timer;
-  double _lastFrequency = 0.0;
-  Function(double frequency) _listener = (_) {};
-  FlutterFft _flutterFft = FlutterFft();
+  SoundFrequencyMeter _soundFrequencyMeter = SoundFrequencyMeter(
+    frequenciesBufferSize: 40,
+  );
+  List<StreamSubscription> _subscriptions = [];
 
-  FrequencyRecorder() {
-    try {
-      _flutterFft = FlutterFft();
-      _asyncInit();
-    } catch (e) {
-      print(e);
-    }
+  set recordPeriod(Duration period) {}
 
-    var period = Duration();
-    _timer = Timer.periodic(period, _periodicCode);
+  set frequencyChangedListener(Function(double frequency) listener) {
+    final subscription = _soundFrequencyMeter.frequencyStream.listen(listener);
+
+    _subscriptions.add(subscription);
   }
-
-  double get frequency {
-    if (_lastFrequency != _flutterFft.getFrequency) {
-      _lastFrequency = _flutterFft.getFrequency;
-      return _flutterFft.getFrequency;
-    } else {
-      _flutterFft.setFrequency = 0.0;
-      _lastFrequency = 0.0;
-      return 0.0;
-    }
-  }
-
-  set recordPeriod(Duration period) {
-    _timer.cancel();
-    _timer = Timer.periodic(period, _periodicCode);
-  }
-
-  set frequencyChangedListener(Function(double frequency) listener) =>
-      _listener = listener;
 
   void dispose() {
-    _flutterFft.stopRecorder();
+    for (final subscription in _subscriptions) {
+      subscription.cancel();
+    }
+    _soundFrequencyMeter.dispose();
   }
-
-  void _asyncInit() async {
-    await _flutterFft.startRecorder();
-    _flutterFft.onRecorderStateChanged.listen(_onRecorderStateChangedListener);
-  }
-
-  void _periodicCode(Timer timer) {
-    _listener(frequency);
-  }
-
-  get _onRecorderStateChangedListener => (data) {
-        _flutterFft.setFrequency = data[1];
-      };
 }

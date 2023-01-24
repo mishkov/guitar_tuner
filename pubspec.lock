@@ -7,7 +7,7 @@ packages:
       name: async
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.8.1"
+    version: "2.9.0"
   boolean_selector:
     dependency: transitive
     description:
@@ -21,28 +21,21 @@ packages:
       name: characters
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.0"
-  charcode:
-    dependency: transitive
-    description:
-      name: charcode
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.3.1"
+    version: "1.2.1"
   clock:
     dependency: transitive
     description:
       name: clock
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.0"
+    version: "1.1.1"
   collection:
     dependency: transitive
     description:
       name: collection
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.15.0"
+    version: "1.16.0"
   cupertino_icons:
     dependency: "direct main"
     description:
@@ -56,19 +49,12 @@ packages:
       name: fake_async
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.0"
+    version: "1.3.1"
   flutter:
     dependency: "direct main"
     description: flutter
     source: sdk
     version: "0.0.0"
-  flutter_fft:
-    dependency: "direct main"
-    description:
-      name: flutter_fft
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.2+6"
   flutter_svg:
     dependency: "direct main"
     description:
@@ -87,21 +73,35 @@ packages:
       name: matcher
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.12.10"
+    version: "0.12.12"
+  material_color_utilities:
+    dependency: transitive
+    description:
+      name: material_color_utilities
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.5"
   meta:
     dependency: "direct main"
     description:
       name: meta
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.7.0"
+    version: "1.8.0"
+  mic_stream:
+    dependency: transitive
+    description:
+      name: mic_stream
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.6.1"
   path:
     dependency: transitive
     description:
       name: path
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.8.0"
+    version: "1.8.2"
   path_drawing:
     dependency: transitive
     description:
@@ -116,6 +116,41 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "0.2.1"
+  permission_handler:
+    dependency: transitive
+    description:
+      name: permission_handler
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "9.2.0"
+  permission_handler_android:
+    dependency: transitive
+    description:
+      name: permission_handler_android
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "9.0.2+1"
+  permission_handler_apple:
+    dependency: transitive
+    description:
+      name: permission_handler_apple
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "9.0.7"
+  permission_handler_platform_interface:
+    dependency: transitive
+    description:
+      name: permission_handler_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "3.9.0"
+  permission_handler_windows:
+    dependency: transitive
+    description:
+      name: permission_handler_windows
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "0.1.2"
   petitparser:
     dependency: transitive
     description:
@@ -123,18 +158,34 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "4.1.0"
+  plugin_platform_interface:
+    dependency: transitive
+    description:
+      name: plugin_platform_interface
+      url: "https://pub.dartlang.org"
+    source: hosted
+    version: "2.1.3"
   sky_engine:
     dependency: transitive
     description: flutter
     source: sdk
     version: "0.0.99"
+  sound_frequency_meter:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: "0.0.1"
+      resolved-ref: "4d981b74283c41125c63a31c928695769dd0d540"
+      url: "https://github.com/mishkov/sound_frequency_meter.git"
+    source: git
+    version: "0.0.1"
   source_span:
     dependency: transitive
     description:
       name: source_span
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.8.1"
+    version: "1.9.0"
   stack_trace:
     dependency: transitive
     description:
@@ -155,7 +206,7 @@ packages:
       name: string_scanner
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.1.0"
+    version: "1.1.1"
   svg_path_parser:
     dependency: "direct main"
     description:
@@ -169,28 +220,21 @@ packages:
       name: term_glyph
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "1.2.0"
+    version: "1.2.1"
   test_api:
     dependency: transitive
     description:
       name: test_api
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "0.4.2"
-  typed_data:
-    dependency: transitive
-    description:
-      name: typed_data
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.3.0"
+    version: "0.4.12"
   vector_math:
     dependency: transitive
     description:
       name: vector_math
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.1.0"
+    version: "2.1.2"
   xml:
     dependency: transitive
     description:
@@ -199,5 +243,5 @@ packages:
     source: hosted
     version: "5.1.2"
 sdks:
-  dart: ">=2.12.0 <3.0.0"
-  flutter: ">=1.24.0-7.0"
+  dart: ">=2.17.6 <3.0.0"
+  flutter: ">=2.8.0"
