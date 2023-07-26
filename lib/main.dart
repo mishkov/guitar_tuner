@@ -1,5 +1,3 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:guitar_tuner/services/frequency_recorder.dart';
@@ -62,7 +60,7 @@ class TuneRouteState extends State<TuneRoute> {
   Note _tunningNote = Note.e1;
   NoteTuner _noteTuner = NoteTuner();
   FrequencyRecorder _frequencyRecorder = FrequencyRecorder();
-  Function(Note peg) _noteChangedListener;
+  Function(Note peg)? _noteChangedListener;
 
   @override
   void initState() {
@@ -115,7 +113,7 @@ class TuneRouteState extends State<TuneRoute> {
                 _deviationInText,
               ),
             ),
-            Guitar(_noteChangedListener),
+            Guitar(_noteChangedListener!),
           ],
         ),
       ),

@@ -62,9 +62,9 @@ class _GuitarState extends State<Guitar> {
 
 class GuitarView extends StatelessWidget {
   const GuitarView({
-    Key key,
-    @required Size canvasSize,
-    @required Note selectedNote,
+    Key? key,
+    required Size canvasSize,
+    required Note selectedNote,
   })  : _canvasSize = canvasSize,
         _selectedNote = selectedNote,
         super(key: key);

@@ -19,7 +19,7 @@ class NoteTuner {
 
   double get deviationInHz {
     if (_frequency != 0.0) {
-      return _frequency - _classicTunedStrings[_note];
+      return _frequency - _classicTunedStrings[_note]!;
     } else {
       return 0.0;
     }

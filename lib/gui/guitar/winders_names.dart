@@ -6,9 +6,9 @@ import 'package:guitar_tuner/services/note_tuner.dart';
 import 'winder_name.dart';
 
 class WindersNames extends DrawingObject {
-  Map<Note, WinderName> _windersNames;
+  Map<Note, WinderName>? _windersNames;
 
-  WindersNames(Canvas canvas, Size size, tunningNote) : super(canvas, size) {
+  WindersNames(Canvas canvas, Size size, Note tunningNote) : super(canvas, size) {
     _windersNames = {
       Note.e1: WinderName(canvas, size, 'E', Offset(size.width + 12, 197)),
       Note.b: WinderName(canvas, size, 'B', Offset(size.width + 12, 136)),
@@ -18,9 +18,9 @@ class WindersNames extends DrawingObject {
       Note.E: WinderName(canvas, size, 'E', Offset(-64, 197)),
     };
 
-    _windersNames[tunningNote].activate();
+    _windersNames![tunningNote]!.activate();
   }
 
   @override
-  void draw() => _windersNames.forEach((key, value) => value.draw());
+  void draw() => _windersNames!.forEach((key, value) => value.draw());
 }

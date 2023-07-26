@@ -1,8 +1,5 @@
-import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:guitar_tuner/gui/drawing_object.dart';
-import 'package:meta/meta.dart';
 
 abstract class DrawingText extends DrawingObject {
   DrawingText(Canvas canvas, Size size) : super(canvas, size);

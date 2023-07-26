@@ -12,7 +12,7 @@ import 'second_string.dart';
 import 'third_string.dart';
 
 class GuitarStrings extends DrawingObject {
-  Map<Note, GuitarString> _strings;
+  Map<Note, GuitarString>? _strings;
 
   GuitarStrings(Canvas canvas, Size size, Note tunningNote)
       : super(canvas, size) {
@@ -25,11 +25,11 @@ class GuitarStrings extends DrawingObject {
       Note.E: SixthString(canvas, size),
     };
 
-    _strings[tunningNote].activate();
+    _strings![tunningNote]!.activate();
   }
 
   @override
-  void draw() => _strings.forEach(
+  void draw() => _strings!.forEach(
         (key, value) => value.draw(),
       );
 }

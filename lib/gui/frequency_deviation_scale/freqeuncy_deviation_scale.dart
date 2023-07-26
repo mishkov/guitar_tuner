@@ -19,12 +19,12 @@ class FrequencyDeviationScale extends StatefulWidget {
 
 class _FrequencyDeviationScaleState extends State<FrequencyDeviationScale>
     with TickerProviderStateMixin {
-  Animation<double> _deviationInHzAnimation;
-  AnimationController _deviationInHzController;
+  Animation<double>? _deviationInHzAnimation;
+  AnimationController? _deviationInHzController;
   double _lastDeviationInHz = 0.0;
 
-  Animation<double> _deviationInPercentAnimation;
-  AnimationController _deviationInPercentController;
+  Animation<double>? _deviationInPercentAnimation;
+  AnimationController? _deviationInPercentController;
   double _lastDeviationInPercent = 0.0;
 
   @override
@@ -62,15 +62,15 @@ class _FrequencyDeviationScaleState extends State<FrequencyDeviationScale>
     );
     _lastDeviationInPercent = widget._deviationInPercent;
     _deviationInPercentAnimation =
-        deviationInPercentTween.animate(_deviationInPercentController)
+        deviationInPercentTween.animate(_deviationInPercentController!)
           ..addListener(() {
             setState(() {});
           });
 
-    if (_deviationInPercentController.status == AnimationStatus.completed) {
-      _deviationInPercentController.reset();
+    if (_deviationInPercentController!.status == AnimationStatus.completed) {
+      _deviationInPercentController!.reset();
     }
-    _deviationInPercentController.forward();
+    _deviationInPercentController!.forward();
   }
 
   void _initDeviationInHzAnimation() {
@@ -80,15 +80,15 @@ class _FrequencyDeviationScaleState extends State<FrequencyDeviationScale>
     );
     _lastDeviationInHz = widget._deviationInHz;
     _deviationInHzAnimation =
-        deviationInHzTween.animate(_deviationInHzController)
+        deviationInHzTween.animate(_deviationInHzController!)
           ..addListener(() {
             setState(() {});
           });
 
-    if (_deviationInHzController.status == AnimationStatus.completed) {
-      _deviationInHzController.reset();
+    if (_deviationInHzController!.status == AnimationStatus.completed) {
+      _deviationInHzController!.reset();
     }
-    _deviationInHzController.forward();
+    _deviationInHzController!.forward();
   }
 
   @override
@@ -100,8 +100,8 @@ class _FrequencyDeviationScaleState extends State<FrequencyDeviationScale>
     return CustomPaint(
       size: canvasSize,
       painter: FrequencyDeviationScalePainter(
-        _deviationInHzAnimation.value,
-        _deviationInPercentAnimation.value,
+        _deviationInHzAnimation!.value,
+        _deviationInPercentAnimation!.value,
         widget._deviationInText,
       ),
     );
@@ -109,8 +109,8 @@ class _FrequencyDeviationScaleState extends State<FrequencyDeviationScale>
 
   @override
   void dispose() {
-    _deviationInHzController.dispose();
-    _deviationInPercentController.dispose();
+    _deviationInHzController?.dispose();
+    _deviationInPercentController?.dispose();
     super.dispose();
   }
 }

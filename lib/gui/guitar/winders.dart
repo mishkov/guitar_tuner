@@ -5,7 +5,7 @@ import '../drawing_object.dart';
 import 'winder.dart';
 
 class Winders extends DrawingObject {
-  Map<Note, Winder> _winders;
+  Map<Note, Winder>? _winders;
 
   Winders(Canvas canvas, Size size, Note tunningNote) : super(canvas, size) {
     _winders = {
@@ -16,11 +16,11 @@ class Winders extends DrawingObject {
       Note.A: Winder(canvas, size, Offset(36, 122)),
       Note.E: Winder(canvas, size, Offset(37, 182)),
     };
-    _winders[tunningNote].activate();
+    _winders![tunningNote]!.activate();
   }
 
   @override
-  void draw() => _winders.forEach(
+  void draw() => _winders!.forEach(
         (key, value) => value.draw(),
       );
 }

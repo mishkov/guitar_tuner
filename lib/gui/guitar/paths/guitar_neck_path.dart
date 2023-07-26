@@ -8,8 +8,8 @@ Path guitarNeckPath(Size size) {
 }
 
 class _GuitarNeckPathStorage {
-  Path _resultPath;
-  Size _previousSize;
+  Path? _resultPath;
+  Size? _previousSize;
 
   static final _GuitarNeckPathStorage _instance = _GuitarNeckPathStorage._();
 
@@ -243,49 +243,43 @@ class _GuitarNeckPathStorage {
      442.973V445.973L66.752 448.969C66.7259 452.303 66.5955 467.532 66.439 
      482.888Z
 ''');
-    final path27 = parseSvgPath(
-        '''M149.913 445.777C149.83 445.904 147.087 446 143.844 446H137.97L137.804 
-    440.807C137.72 437.972 137.582 427.841 137.499 418.283C137.416 408.726 
-    137.277 394.867 137.166 387.444L137 374H142.985H148.999V375.306C148.999 
-    378.396 149.83 433.065 149.941 439.023C150.024 442.623 150.024 445.681 
-    149.913 445.777Z''');
     _resultPath = Path.combine(PathOperation.union, path1, path2);
-    _resultPath = Path.combine(PathOperation.union, _resultPath, path3);
-    _resultPath = Path.combine(PathOperation.union, _resultPath, path4);
-    _resultPath = Path.combine(PathOperation.union, _resultPath, path5);
-    _resultPath = Path.combine(PathOperation.union, _resultPath, path6);
-    _resultPath = Path.combine(PathOperation.union, _resultPath, path7);
-    _resultPath = Path.combine(PathOperation.union, _resultPath, path8);
-    _resultPath = Path.combine(PathOperation.union, _resultPath, path9);
-    _resultPath = Path.combine(PathOperation.union, _resultPath, path10);
-    _resultPath = Path.combine(PathOperation.union, _resultPath, path11);
-    _resultPath = Path.combine(PathOperation.union, _resultPath, path12);
-    _resultPath = Path.combine(PathOperation.union, _resultPath, path13);
-    _resultPath = Path.combine(PathOperation.union, _resultPath, path14);
-    _resultPath = Path.combine(PathOperation.union, _resultPath, path15);
-    _resultPath = Path.combine(PathOperation.union, _resultPath, path16);
-    _resultPath = Path.combine(PathOperation.union, _resultPath, path17);
-    _resultPath = Path.combine(PathOperation.union, _resultPath, path18);
-    _resultPath = Path.combine(PathOperation.union, _resultPath, path19);
-    _resultPath = Path.combine(PathOperation.union, _resultPath, path20);
-    _resultPath = Path.combine(PathOperation.union, _resultPath, path21);
-    _resultPath = Path.combine(PathOperation.union, _resultPath, path22);
-    _resultPath = Path.combine(PathOperation.union, _resultPath, path23);
-    _resultPath = Path.combine(PathOperation.union, _resultPath, path24);
-    _resultPath = Path.combine(PathOperation.union, _resultPath, path25);
-    _resultPath = Path.combine(PathOperation.union, _resultPath, path26);
+    _resultPath = Path.combine(PathOperation.union, _resultPath!, path3);
+    _resultPath = Path.combine(PathOperation.union, _resultPath!, path4);
+    _resultPath = Path.combine(PathOperation.union, _resultPath!, path5);
+    _resultPath = Path.combine(PathOperation.union, _resultPath!, path6);
+    _resultPath = Path.combine(PathOperation.union, _resultPath!, path7);
+    _resultPath = Path.combine(PathOperation.union, _resultPath!, path8);
+    _resultPath = Path.combine(PathOperation.union, _resultPath!, path9);
+    _resultPath = Path.combine(PathOperation.union, _resultPath!, path10);
+    _resultPath = Path.combine(PathOperation.union, _resultPath!, path11);
+    _resultPath = Path.combine(PathOperation.union, _resultPath!, path12);
+    _resultPath = Path.combine(PathOperation.union, _resultPath!, path13);
+    _resultPath = Path.combine(PathOperation.union, _resultPath!, path14);
+    _resultPath = Path.combine(PathOperation.union, _resultPath!, path15);
+    _resultPath = Path.combine(PathOperation.union, _resultPath!, path16);
+    _resultPath = Path.combine(PathOperation.union, _resultPath!, path17);
+    _resultPath = Path.combine(PathOperation.union, _resultPath!, path18);
+    _resultPath = Path.combine(PathOperation.union, _resultPath!, path19);
+    _resultPath = Path.combine(PathOperation.union, _resultPath!, path20);
+    _resultPath = Path.combine(PathOperation.union, _resultPath!, path21);
+    _resultPath = Path.combine(PathOperation.union, _resultPath!, path22);
+    _resultPath = Path.combine(PathOperation.union, _resultPath!, path23);
+    _resultPath = Path.combine(PathOperation.union, _resultPath!, path24);
+    _resultPath = Path.combine(PathOperation.union, _resultPath!, path25);
+    _resultPath = Path.combine(PathOperation.union, _resultPath!, path26);
     final rectPath = Path()..addRect(Rect.fromLTWH(64, 279, 91, 6));
-    _resultPath = Path.combine(PathOperation.union, _resultPath, rectPath);
+    _resultPath = Path.combine(PathOperation.union, _resultPath!, rectPath);
   }
 
   Path getScaledPath(Size size) {
     if (shouldRescale(size)) {
-      _resultPath = scalePath(_resultPath, size, _resultPath.getBounds().size);
+      _resultPath = scalePath(_resultPath!, size, _resultPath!.getBounds().size);
     }
 
     _previousSize = size;
 
-    return _resultPath;
+    return _resultPath!;
   }
 
   bool shouldRescale(Size newSize) {
