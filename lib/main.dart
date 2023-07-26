@@ -1,3 +1,4 @@
+import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:guitar_tuner/services/frequency_recorder.dart';
@@ -6,7 +7,11 @@ import 'package:guitar_tuner/services/note_tuner.dart';
 import 'gui/frequency_deviation_scale/freqeuncy_deviation_scale.dart';
 import 'gui/guitar/guitar.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  await AppMetrica.activate(
+      AppMetricaConfig("40424c4e-8163-4bd1-bee4-69afb9418dba"));
   // I don't know why but scale in release apk doesn't work
   // copied from: https://stackoverflow.com/questions/64552637/how-can-i-solve-flutter-problem-in-release-mode
   ErrorWidget.builder = (FlutterErrorDetails details) {
@@ -28,9 +33,13 @@ void main() {
       ),
     );
   };
-  // Here we would normally runApp() the root widget, but to demonstrate
-  // the error handling we artificially fail:
-  runApp(Application());
+  AppMetrica.runZoneGuarded(
+    () {
+      // Here we would normally runApp() the root widget, but to demonstrate
+      // the error handling we artificially fail:
+      runApp(Application());
+    },
+  );
 }
 
 class Application extends StatelessWidget {
@@ -75,10 +84,15 @@ class TuneRouteState extends State<TuneRoute> {
           _setupDeviation();
         });
 
-    _noteChangedListener = (note) => setState(() {
-          _noteTuner.note = note;
-          _setupDeviation();
-        });
+    _noteChangedListener = (note) {
+      AppMetrica.reportEvent('User selected note: $note');
+      AppMetrica.sendEventsBuffer();
+
+      setState(() {
+        _noteTuner.note = note;
+        _setupDeviation();
+      });
+    };
 
     super.initState();
   }
