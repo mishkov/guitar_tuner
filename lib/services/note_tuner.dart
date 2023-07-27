@@ -13,6 +13,8 @@ class NoteTuner {
     Note.E: 82.41,
   };
 
+  num? getTargetFrequency(Note note) => _classicTunedStrings[note];
+
   set note(Note note) => _note = note;
 
   set frequency(double frequency) => _frequency = frequency;

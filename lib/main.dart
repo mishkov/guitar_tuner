@@ -79,13 +79,23 @@ class TuneRouteState extends State<TuneRoute> {
     _setupDeviation();
 
     _frequencyRecorder.recordPeriod = Duration(milliseconds: 300);
-    _frequencyRecorder.frequencyChangedListener = (frequency) => setState(() {
-          _noteTuner.frequency = frequency;
-          _setupDeviation();
+    _frequencyRecorder.frequencyChangedListener = (frequency) {
+      setState(() {
+        _noteTuner.frequency = frequency;
+        _setupDeviation();
+
+        AppMetrica.reportEventWithMap('Frequency is changed', {
+          'frequencyInHz': _deviationInHz,
+          'targetFrequencyInHz': _noteTuner.getTargetFrequency(_tunningNote)!,
+          'tunningNote': _tunningNote,
         });
+      });
+    };
 
     _noteChangedListener = (note) {
-      AppMetrica.reportEvent('User selected note: $note');
+      AppMetrica.reportEventWithMap('User selected note', {
+        'note': note,
+      });
       AppMetrica.sendEventsBuffer();
 
       setState(() {
