@@ -87,14 +87,14 @@ class TuneRouteState extends State<TuneRoute> {
         AppMetrica.reportEventWithMap('Frequency is changed', {
           'frequencyInHz': _deviationInHz,
           'targetFrequencyInHz': _noteTuner.getTargetFrequency(_tunningNote)!,
-          'tunningNote': _tunningNote,
+          'tunningNote': _tunningNote.toString(),
         });
       });
     };
 
     _noteChangedListener = (note) {
       AppMetrica.reportEventWithMap('User selected note', {
-        'note': note,
+        'note': note.toString(),
       });
       AppMetrica.sendEventsBuffer();
 
