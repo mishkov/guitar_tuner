@@ -8,10 +8,6 @@ import 'gui/frequency_deviation_scale/freqeuncy_deviation_scale.dart';
 import 'gui/guitar/guitar.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  await AppMetrica.activate(
-      AppMetricaConfig("40424c4e-8163-4bd1-bee4-69afb9418dba"));
   // I don't know why but scale in release apk doesn't work
   // copied from: https://stackoverflow.com/questions/64552637/how-can-i-solve-flutter-problem-in-release-mode
   ErrorWidget.builder = (FlutterErrorDetails details) {
@@ -33,11 +29,16 @@ Future<void> main() async {
       ),
     );
   };
-  AppMetrica.runZoneGuarded(
-    () {
+  return AppMetrica.runZoneGuarded(
+    () async {
+      WidgetsFlutterBinding.ensureInitialized();
+
+      await AppMetrica.activate(
+          AppMetricaConfig("40424c4e-8163-4bd1-bee4-69afb9418dba"));
+          
       // Here we would normally runApp() the root widget, but to demonstrate
       // the error handling we artificially fail:
-      runApp(Application());
+      return runApp(Application());
     },
   );
 }
