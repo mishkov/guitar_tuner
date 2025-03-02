@@ -130,17 +130,32 @@ class YinDeviationIsolate {
     // 1. Convert 16-bit PCM bytes to floating-point samples
     final samples = _convert16BitPCMToDoubles(bytes);
 
-    // 2. Detect pitch using the YIN algorithm
-    //    (Adjust buffer size or sample rate as needed for better accuracy.)
-    final detectedFrequency = _yinPitchDetection(samples, sampleRate);
+    final fs = sampleRate.toDouble();
+    final filtered = bandPassFilter(samples, fs, 60.0, 1000.0);
 
-    if (detectedFrequency == null) {
+    final rms = _computeRMS(filtered);
+    if (rms < 140) {
+      debugPrint('RMS: $rms');
       sendPort.send(0.0);
+
+      _isProcessing = false;
 
       return;
     }
 
-    debugPrint('$detectedFrequency');
+    // 2. Detect pitch using the YIN algorithm
+    //    (Adjust buffer size or sample rate as needed for better accuracy.)
+    final detectedFrequency = _yinPitchDetection(filtered, sampleRate);
+
+    if (detectedFrequency == null) {
+      sendPort.send(0.0);
+
+      _isProcessing = false;
+
+      return;
+    }
+
+    debugPrint('RMS: ${rms.toStringAsFixed(2)} $detectedFrequency');
 
     // 3. Compute how far away this frequency is from the nearest note
     // final deviation = (-(329.6 - detectedFrequency))
@@ -149,6 +164,78 @@ class YinDeviationIsolate {
     sendPort.send(detectedFrequency);
 
     _isProcessing = false;
+  }
+
+  double _computeRMS(List<double> samples) {
+    double sumOfSquares = 0.0;
+    for (final sample in samples) {
+      sumOfSquares += sample * sample;
+    }
+    final meanOfSquares = sumOfSquares / samples.length;
+    return sqrt(meanOfSquares); // or math.sqrt(meanOfSquares)
+  }
+
+  /// Applies a *very* simple bandpass filter by chaining a high-pass and low-pass.
+  /// - `samples`: The time-domain audio samples.
+  /// - `fs`: The sample rate (e.g., 16000).
+  /// - `lowCutHz`: High-pass cutoff (e.g., 60 Hz).
+  /// - `highCutHz`: Low-pass cutoff (e.g., 1000 Hz).
+  List<double> bandPassFilter(
+    List<double> samples,
+    double fs,
+    double lowCutHz,
+    double highCutHz,
+  ) {
+    // 1. High-pass filter
+    final hpFiltered = highPassFilter(samples, fs, lowCutHz);
+
+    // 2. Low-pass filter
+    final bpFiltered = lowPassFilter(hpFiltered, fs, highCutHz);
+
+    return bpFiltered;
+  }
+
+  /// Simple single-pole High-Pass Filter
+  /// y[n] = alpha * y[n-1] + alpha * (x[n] - x[n-1])
+  List<double> highPassFilter(List<double> x, double fs, double cutoffHz) {
+    if (cutoffHz <= 0) return x;
+
+    final alpha = exp(-2.0 * pi * cutoffHz / fs);
+
+    List<double> y = List<double>.filled(x.length, 0.0);
+    double yPrev = 0.0;
+    double xPrev = x.isNotEmpty ? x[0] : 0.0;
+
+    for (int n = 0; n < x.length; n++) {
+      final input = x[n];
+      final output = alpha * yPrev + alpha * (input - xPrev);
+      y[n] = output;
+
+      yPrev = output;
+      xPrev = input;
+    }
+
+    return y;
+  }
+
+  /// Simple single-pole Low-Pass Filter
+  /// y[n] = alpha * y[n-1] + (1 - alpha) * x[n]
+  List<double> lowPassFilter(List<double> x, double fs, double cutoffHz) {
+    if (cutoffHz >= fs / 2) return x; // Can't low-pass above Nyquist
+
+    final alpha = exp(-2.0 * pi * cutoffHz / fs);
+
+    List<double> y = List<double>.filled(x.length, 0.0);
+    double yPrev = 0.0;
+
+    for (int n = 0; n < x.length; n++) {
+      final input = x[n];
+      final output = alpha * yPrev + (1.0 - alpha) * input;
+      y[n] = output;
+      yPrev = output;
+    }
+
+    return y;
   }
 
   /// Converts a 16-bit PCM little-endian Byte array to List\<double\>.
@@ -200,7 +287,7 @@ class YinDeviationIsolate {
     }
 
     // 3. Find the minimum t where CMND[t] < threshold
-    const double threshold = 0.24;
+    const double threshold = 0.15;
     int tau = 0;
 
     for (int t = 2; t < bufferSize; t++) {

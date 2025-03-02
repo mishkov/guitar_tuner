@@ -1,4 +1,3 @@
-import 'package:appmetrica_plugin/appmetrica_plugin.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:guitar_tuner/services/frequency_recorder.dart';
@@ -29,18 +28,10 @@ Future<void> main() async {
       ),
     );
   };
-  return AppMetrica.runZoneGuarded(
-    () async {
-      WidgetsFlutterBinding.ensureInitialized();
 
-      await AppMetrica.activate(
-          AppMetricaConfig("40424c4e-8163-4bd1-bee4-69afb9418dba"));
-          
-      // Here we would normally runApp() the root widget, but to demonstrate
-      // the error handling we artificially fail:
-      return runApp(Application());
-    },
-  );
+  WidgetsFlutterBinding.ensureInitialized();
+
+  return runApp(Application());
 }
 
 class Application extends StatelessWidget {
@@ -84,21 +75,10 @@ class TuneRouteState extends State<TuneRoute> {
       setState(() {
         _noteTuner.frequency = frequency;
         _setupDeviation();
-
-        AppMetrica.reportEventWithMap('Frequency is changed', {
-          'frequencyInHz': _deviationInHz,
-          'targetFrequencyInHz': _noteTuner.getTargetFrequency(_tunningNote)!,
-          'tunningNote': _tunningNote.toString(),
-        });
       });
     };
 
     _noteChangedListener = (note) {
-      AppMetrica.reportEventWithMap('User selected note', {
-        'note': note.toString(),
-      });
-      AppMetrica.sendEventsBuffer();
-
       setState(() {
         _noteTuner.note = note;
         _setupDeviation();

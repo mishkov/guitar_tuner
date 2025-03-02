@@ -49,4 +49,6 @@ app.*.map.json
 android/key.properties
 
 # FVM
-.fvm/flutter_sdk
+
+# FVM Version Cache
+.fvm/
