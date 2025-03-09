@@ -17,9 +17,7 @@ class FrequencyRecorder {
     if (_subscriptions.isEmpty) {
       _soundFrequencyMeter.start();
     }
-
     final subscription = _soundFrequencyMeter.frequencyStream.listen(listener);
-
     _subscriptions.add(subscription);
   }
 
@@ -27,7 +25,6 @@ class FrequencyRecorder {
     for (final subscription in _subscriptions) {
       subscription.cancel();
     }
-    _soundFrequencyMeter.dispose();
     _soundFrequencyMeter.dispose();
   }
 }
@@ -92,18 +89,14 @@ class YinIsolatedDeviationProvider implements FrequencyProvider {
 
 void yinDeviationIsolateEntryPoint(YinDeviationIsolateArguments args) {
   BackgroundIsolateBinaryMessenger.ensureInitialized(args.token);
-
   final receivePort = ReceivePort();
-
   args.sendPort.send(receivePort.sendPort);
-
   YinDeviationIsolate(args.sendPort, receivePort);
 }
 
 class YinDeviationIsolateArguments {
   final SendPort sendPort;
   final RootIsolateToken token;
-
   YinDeviationIsolateArguments({required this.sendPort, required this.token});
 }
 
@@ -121,48 +114,44 @@ class YinDeviationIsolate {
   }
 
   void _process(List<int> bytes) async {
-    if (_isProcessing) {
-      return;
-    }
-
+    if (_isProcessing) return;
     _isProcessing = true;
 
     // 1. Convert 16-bit PCM bytes to floating-point samples
     final samples = _convert16BitPCMToDoubles(bytes);
-
     final fs = sampleRate.toDouble();
     final filtered = bandPassFilter(samples, fs, 60.0, 1000.0);
 
+    // 2. Check overall energy (RMS)
     final rms = _computeRMS(filtered);
     if (rms < 140) {
-      debugPrint('RMS: $rms');
+      debugPrint('RMS too low: $rms');
       sendPort.send(0.0);
-
       _isProcessing = false;
-
       return;
     }
 
-    // 2. Detect pitch using the YIN algorithm
-    //    (Adjust buffer size or sample rate as needed for better accuracy.)
-    final detectedFrequency = _yinPitchDetection(filtered, sampleRate);
+    // 3. Compute spectral flatness to detect noise.
+    //    A high spectral flatness (e.g., > 0.5) means the spectrum is almost flat, typical of noise.
+    final spectralFlatness = _computeSpectralFlatness(filtered);
+    if (spectralFlatness > 0.5) {
+      debugPrint(
+          'Noise detected (spectral flatness: ${spectralFlatness.toStringAsFixed(2)})');
+      sendPort.send(0.0);
+      _isProcessing = false;
+      return;
+    }
 
+    // 4. Detect pitch using the YIN algorithm
+    final detectedFrequency = _yinPitchDetection(filtered, sampleRate);
     if (detectedFrequency == null) {
       sendPort.send(0.0);
-
       _isProcessing = false;
-
       return;
     }
 
-    debugPrint('RMS: ${rms.toStringAsFixed(2)} $detectedFrequency');
-
-    // 3. Compute how far away this frequency is from the nearest note
-    // final deviation = (-(329.6 - detectedFrequency))
-    //     .round(); //_computeDeviationInCents(detectedFrequency);
-
+    debugPrint('RMS: ${rms.toStringAsFixed(2)} Frequency: $detectedFrequency');
     sendPort.send(detectedFrequency);
-
     _isProcessing = false;
   }
 
@@ -171,103 +160,75 @@ class YinDeviationIsolate {
     for (final sample in samples) {
       sumOfSquares += sample * sample;
     }
-    final meanOfSquares = sumOfSquares / samples.length;
-    return sqrt(meanOfSquares); // or math.sqrt(meanOfSquares)
+    return sqrt(sumOfSquares / samples.length);
   }
 
-  /// Applies a *very* simple bandpass filter by chaining a high-pass and low-pass.
-  /// - `samples`: The time-domain audio samples.
-  /// - `fs`: The sample rate (e.g., 16000).
-  /// - `lowCutHz`: High-pass cutoff (e.g., 60 Hz).
-  /// - `highCutHz`: Low-pass cutoff (e.g., 1000 Hz).
+  /// Applies a simple bandpass filter by chaining a high-pass and low-pass.
   List<double> bandPassFilter(
     List<double> samples,
     double fs,
     double lowCutHz,
     double highCutHz,
   ) {
-    // 1. High-pass filter
     final hpFiltered = highPassFilter(samples, fs, lowCutHz);
-
-    // 2. Low-pass filter
     final bpFiltered = lowPassFilter(hpFiltered, fs, highCutHz);
-
     return bpFiltered;
   }
 
-  /// Simple single-pole High-Pass Filter
-  /// y[n] = alpha * y[n-1] + alpha * (x[n] - x[n-1])
+  /// Single-pole High-Pass Filter
   List<double> highPassFilter(List<double> x, double fs, double cutoffHz) {
     if (cutoffHz <= 0) return x;
-
     final alpha = exp(-2.0 * pi * cutoffHz / fs);
-
     List<double> y = List<double>.filled(x.length, 0.0);
     double yPrev = 0.0;
     double xPrev = x.isNotEmpty ? x[0] : 0.0;
-
     for (int n = 0; n < x.length; n++) {
       final input = x[n];
       final output = alpha * yPrev + alpha * (input - xPrev);
       y[n] = output;
-
       yPrev = output;
       xPrev = input;
     }
-
     return y;
   }
 
-  /// Simple single-pole Low-Pass Filter
-  /// y[n] = alpha * y[n-1] + (1 - alpha) * x[n]
+  /// Single-pole Low-Pass Filter
   List<double> lowPassFilter(List<double> x, double fs, double cutoffHz) {
-    if (cutoffHz >= fs / 2) return x; // Can't low-pass above Nyquist
-
+    if (cutoffHz >= fs / 2) return x;
     final alpha = exp(-2.0 * pi * cutoffHz / fs);
-
     List<double> y = List<double>.filled(x.length, 0.0);
     double yPrev = 0.0;
-
     for (int n = 0; n < x.length; n++) {
       final input = x[n];
       final output = alpha * yPrev + (1.0 - alpha) * input;
       y[n] = output;
       yPrev = output;
     }
-
     return y;
   }
 
-  /// Converts a 16-bit PCM little-endian Byte array to List\<double\>.
-  /// Assumes that [bytes] has length multiple of 2.
+  /// Converts 16-bit PCM little-endian bytes to List<double>.
   List<double> _convert16BitPCMToDoubles(List<int> bytes) {
     final sampleCount = bytes.length ~/ 2;
     final samples = List<double>.filled(sampleCount, 0, growable: false);
-
     for (int i = 0; i < sampleCount; i++) {
-      // Little-endian: low byte, high byte
       final low = bytes[2 * i];
       final high = bytes[2 * i + 1];
-
-      // Combine the two bytes into a 16-bit signed value
       int value = (high << 8) | (low & 0xFF);
       if (value & 0x8000 != 0) {
         value = value - 0x10000;
       }
-
-      // Store as double
       samples[i] = value.toDouble();
     }
     return samples;
   }
 
-  /// Performs fundamental frequency estimation using a simplified YIN algorithm.
-  /// For best results, you'll likely want at least ~1024 or more samples.
+  /// A basic implementation of the YIN pitch detection algorithm.
   double? _yinPitchDetection(List<double> samples, int sampleRate) {
     final int bufferSize = samples.length;
     if (bufferSize < 2) return null;
 
-    // 1. Calculate the squared difference function d[t]
+    // 1. Squared difference function d[t]
     final d = List<double>.filled(bufferSize, 0);
     for (int t = 1; t < bufferSize; t++) {
       double sum = 0.0;
@@ -278,7 +239,7 @@ class YinDeviationIsolate {
       d[t] = sum;
     }
 
-    // 2. Calculate the cumulative mean normalized difference function CMND[t]
+    // 2. Cumulative mean normalized difference function (CMND)
     final cmnd = List<double>.filled(bufferSize, 0);
     double runningSum = 0.0;
     for (int t = 1; t < bufferSize; t++) {
@@ -286,13 +247,11 @@ class YinDeviationIsolate {
       cmnd[t] = d[t] * (t / runningSum);
     }
 
-    // 3. Find the minimum t where CMND[t] < threshold
+    // 3. Find tau where CMND[t] < threshold
     const double threshold = 0.15;
     int tau = 0;
-
     for (int t = 2; t < bufferSize; t++) {
       if (cmnd[t] < threshold) {
-        // Optional: refine 't' to the local minimum using the while loop
         int bestT = t;
         while (bestT + 1 < bufferSize && cmnd[bestT + 1] < cmnd[bestT]) {
           bestT++;
@@ -301,43 +260,42 @@ class YinDeviationIsolate {
         break;
       }
     }
-
-    if (tau == 0) {
-      // No good pitch detected
-      return null;
-    }
+    if (tau == 0) return null;
 
     // 4. Convert period (tau) to frequency
-    final frequency = sampleRate / tau;
-    return frequency;
+    return sampleRate / tau;
   }
 
-  /// Given a frequency, return how many cents off it is from the nearest semitone.
-  ///
-  /// - Return 0.0 if exactly on a standard pitch (like A4 = 440 Hz, E4 = 329.63, etc.).
-  /// - Negative if flat, positive if sharp.
-  double _computeDeviationInCents(double frequency) {
-    if (frequency <= 0.0) return 0.0;
-
-    // Reference note: A4 = 440 Hz
-    // Find the closest note (in semitones) to the detected frequency
-    // Formula for semitone distance from A4:
-    //   semitones = 12 * log2(freq / 440)
-    final semitoneDistance = 12 * _log2(frequency / 440.0);
-
-    // Round to nearest integer semitone
-    final nearestSemitone = semitoneDistance.round();
-
-    // Frequency of the nearest semitone
-    final nearestSemitoneFreq = 440.0 * pow(2.0, nearestSemitone / 12.0);
-
-    // Deviation in cents from that semitone:
-    //   100 cents per semitone
-    final centOffset = 1200 * _log2(frequency / nearestSemitoneFreq);
-
-    return centOffset;
+  /// Computes the spectral flatness of [samples].
+  /// A value closer to 1.0 means a flatter (noise-like) spectrum,
+  /// while lower values indicate a more tonal (harmonic) spectrum.
+  double _computeSpectralFlatness(List<double> samples) {
+    final magnitudes = _dft(samples);
+    // Skip the DC component (first bin)
+    final nonZero = magnitudes.skip(1).toList();
+    final arithmeticMean = nonZero.reduce((a, b) => a + b) / nonZero.length;
+    double logSum = 0.0;
+    for (final m in nonZero) {
+      logSum += log(m + 1e-12); // Avoid log(0)
+    }
+    final geometricMean = exp(logSum / nonZero.length);
+    return geometricMean / arithmeticMean;
   }
 
-  /// Helper for log base 2
-  double _log2(double x) => log(x) / ln2;
+  /// A simple (but unoptimized) Discrete Fourier Transform.
+  List<double> _dft(List<double> samples) {
+    final int N = samples.length;
+    List<double> magnitudes = List.filled(N, 0.0);
+    for (int k = 0; k < N; k++) {
+      double real = 0.0;
+      double imag = 0.0;
+      for (int n = 0; n < N; n++) {
+        final angle = 2 * pi * k * n / N;
+        real += samples[n] * cos(angle);
+        imag -= samples[n] * sin(angle);
+      }
+      magnitudes[k] = sqrt(real * real + imag * imag);
+    }
+    return magnitudes;
+  }
 }
