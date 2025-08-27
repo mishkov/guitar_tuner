@@ -1,34 +1,16 @@
 PODS:
-  - appmetrica_plugin (1.4.0):
-    - Flutter
-    - YandexMobileMetrica (~> 4.4)
   - Flutter (1.0.0)
   - permission_handler_apple (9.3.0):
     - Flutter
   - sound_stream (0.1.0):
     - Flutter
-  - YandexMobileMetrica (4.5.2):
-    - YandexMobileMetrica/Static (= 4.5.2)
-  - YandexMobileMetrica/Static (4.5.2):
-    - YandexMobileMetrica/Static/Core (= 4.5.2)
-    - YandexMobileMetrica/Static/Crashes (= 4.5.2)
-  - YandexMobileMetrica/Static/Core (4.5.2)
-  - YandexMobileMetrica/Static/Crashes (4.5.2):
-    - YandexMobileMetrica/Static/Core
 
 DEPENDENCIES:
-  - appmetrica_plugin (from `.symlinks/plugins/appmetrica_plugin/ios`)
   - Flutter (from `Flutter`)
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
   - sound_stream (from `.symlinks/plugins/sound_stream/ios`)
 
-SPEC REPOS:
-  trunk:
-    - YandexMobileMetrica
-
 EXTERNAL SOURCES:
-  appmetrica_plugin:
-    :path: ".symlinks/plugins/appmetrica_plugin/ios"
   Flutter:
     :path: Flutter
   permission_handler_apple:
@@ -37,12 +19,10 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/sound_stream/ios"
 
 SPEC CHECKSUMS:
-  appmetrica_plugin: b0478d4c863b48972294e26a2d5d1db8d30a9a2d
   Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
   permission_handler_apple: 9878588469a2b0d0fc1e048d9f43605f92e6cec2
   sound_stream: 1024ba0edcb33fecffe2154167e8a40daeaa8721
-  YandexMobileMetrica: f5368ee93f286c793d73b58da00929babfc897c1
 
 PODFILE CHECKSUM: 819463e6a0290f5a72f145ba7cde16e8b6ef0796
 
-COCOAPODS: 1.15.2
+COCOAPODS: 1.16.2
